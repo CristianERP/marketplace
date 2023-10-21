@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.marketplace.apimarket.dto.UserRequest;
 import com.marketplace.apimarket.dto.UserResponse;
 import com.marketplace.apimarket.model.User;
 import com.marketplace.apimarket.repository.UserRepository;
@@ -48,7 +49,54 @@ public class AdminService {
       userResponse.setRole(user.getRole());
       return userResponse;
     } else {
-      throw new EntityNotFoundException(String.format("No existe usuario con id: %d", id));
+      throw new EntityNotFoundException("Usuario no encontrado con ID: " + id);
+    }
+  }
+
+  public UserResponse updateUser(Integer id, UserRequest userRequest) {
+    Optional<User> optionalUser = userRepository.findById(id);
+
+    if (optionalUser.isPresent()) {
+      User user = optionalUser.get();
+
+      if (userRequest.getName() != null) {
+        user.setName(userRequest.getName());
+      }
+
+      if (userRequest.getPhoneNumber() != null) {
+        user.setPhoneNumber(userRequest.getPhoneNumber());
+      }
+
+      if (userRequest.getEmail() != null) {
+        user.setEmail(userRequest.getEmail());
+      }
+
+      if (userRequest.getRole() != null) {
+        user.setEmail(userRequest.getRole());
+      }
+
+      userRepository.save(user);
+
+      UserResponse userResponse = new UserResponse();
+      userResponse.setId(user.getId());
+      userResponse.setName(user.getName());
+      userResponse.setPhoneNumber(user.getPhoneNumber());
+      userResponse.setEmail(user.getEmail());
+      userResponse.setRole(user.getRole());
+
+      return userResponse;
+    } else {
+      throw new EntityNotFoundException("Usuario no encontrado con ID: " + id);
+    }
+  }
+
+  public void deleteUser(Integer id) {
+    Optional<User> optionalUser = userRepository.findById(id);
+
+    if (optionalUser.isPresent()) {
+      userRepository.deleteById(id);
+    } else {
+      throw new EntityNotFoundException("Usuario no encontrado con ID: " + id);
     }
   }
 
