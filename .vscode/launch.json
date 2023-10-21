@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ApiMarketApplication<api-market>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.marketplace.apimarket.ApiMarketApplication",
+            "projectName": "api-market",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

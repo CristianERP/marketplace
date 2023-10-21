@@ -22,9 +22,10 @@ public class AdminService {
   public List<UserResponse> getUsers() {
     List<User> users = userRepository.findAll();
     List<UserResponse> UserResponses = users.stream()
+        .filter(user -> user.getRole().equals("user"))
         .map(user -> {
           UserResponse UserResponse = new UserResponse();
-          // UserResponse.setId(user.getId());
+          UserResponse.setId(user.getId());
           UserResponse.setName(user.getName());
           UserResponse.setPhoneNumber(user.getPhoneNumber());
           UserResponse.setEmail(user.getEmail());
