@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.marketplace.apimarket.dto.AuthenticationResponse;
 import com.marketplace.apimarket.dto.LoginRequest;
 import com.marketplace.apimarket.dto.RegisterRequest;
 import com.marketplace.apimarket.jwt.JwtUtil;
@@ -34,7 +35,7 @@ public class AuthController {
   }
 
   @PostMapping("/login")
-  public ResponseEntity<String> login(@RequestBody LoginRequest request) {
+  public ResponseEntity<?> login(@RequestBody LoginRequest request) {
     String email = request.getEmail();
     String password = request.getPassword();
 
@@ -42,11 +43,19 @@ public class AuthController {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email o password vacio.");
     }
 
-    if (userService.authenticateUser(request)) {
-      String token = JwtUtil.generateToken(email);
-      return ResponseEntity.ok(token);
-    } else {
-      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales inválidas.");
+    Optional<User> authenticatedUserOptional = userService.authenticateUser(request);
+    if (authenticatedUserOptional.isPresent()) {
+      User authenticatedUser = authenticatedUserOptional.get();
+      String token = JwtUtil.generateToken(authenticatedUser.getEmail());
+
+      AuthenticationResponse response = new AuthenticationResponse();
+      response.setName(authenticatedUser.getName());
+      response.setRole(authenticatedUser.getRole());
+      response.setToken(token);
+
+      return ResponseEntity.ok(response);
     }
+
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales inválidas.");
   }
 }

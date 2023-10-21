@@ -1,5 +1,6 @@
 package com.marketplace.apimarket.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,20 +23,32 @@ public class UserService {
     user.setPhoneNumber(request.getPhoneNumber());
     user.setEmail(request.getEmail());
     user.setPassword(PasswordUtil.encodePassword(request.getPassword()));
+    user.setRole("user");
 
     userRepository.save(user);
   }
 
-  public boolean authenticateUser(LoginRequest request) {
+  public Optional<User> authenticateUser(LoginRequest request) {
     Optional<User> userOptional = findUserByEmail(request.getEmail());
     if (userOptional.isPresent()) {
       User user = userOptional.get();
-      return PasswordUtil.verifyPassword(request.getPassword(), user.getPassword());
+      if (PasswordUtil.verifyPassword(request.getPassword(), user.getPassword())) {
+        return Optional.of(user);
+      }
     }
-    return false;
+    return Optional.empty();
+  }
+
+  public void createAdmin(User user) {
+    userRepository.save(user);
   }
 
   public Optional<User> findUserByEmail(String email) {
     return userRepository.findByEmail(email);
+  }
+
+  public Boolean isAdminUserExists() {
+    List<User> adminUsers = userRepository.findByRole("admin");
+    return adminUsers.size() == 1;
   }
 }
