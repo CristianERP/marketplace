@@ -1,0 +1,38 @@
+.create-account-form {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  padding: 20px;
+  gap: 10px;
+  text-align: center;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+}
+
+.form-label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.form-span {
+  flex: 1;
+  margin-right: 10px;
+  text-align: right;
+}
+
+.form-input {
+  flex: 2;
+  font-size: 2rem;
+}
+
+.create-account-form button {
+  display: inline-block;
+  font-size: 2rem;
+  width: auto;
+  margin: 0 auto;
+  padding: 5px;
+}

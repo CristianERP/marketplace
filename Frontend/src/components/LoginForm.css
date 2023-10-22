@@ -1,0 +1,30 @@
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.login-form button{ 
+  display: inline-block;
+  font-size: 2rem;
+  width: auto;
+  margin: 0 auto;
+  padding: 5px;
+}
+
+.login-form__label {
+  display: flex;
+  height: 40px;
+}
+
+.login-form__label > span > svg{
+  height: 100%;
+  width: auto;
+}
+
+.login-form__label > input{
+  padding: 0 0 0 5px;
+  margin: 0 0 0 5px;
+  font-size: 2rem;
+  border: 1px solid #000;
+}
