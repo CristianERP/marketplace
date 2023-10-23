@@ -50,6 +50,7 @@ public class AuthController {
 
       AuthenticationResponse response = new AuthenticationResponse();
       response.setName(authenticatedUser.getName());
+      response.setUsername(authenticatedUser.getUsername());
       response.setRole(authenticatedUser.getRole());
       response.setToken(token);
 

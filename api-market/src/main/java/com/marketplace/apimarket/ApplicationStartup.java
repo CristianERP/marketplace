@@ -22,6 +22,7 @@ public class ApplicationStartup implements ApplicationListener<ContextRefreshedE
     if (!userService.isAdminUserExists()) {
       User adminUser = new User();
       adminUser.setName("Admin");
+      adminUser.setUsername("userAdmin");
       adminUser.setPhoneNumber("123456789");
       adminUser.setEmail("admin@admin.com");
       adminUser.setPassword(PasswordUtil.encodePassword("adminPassword"));

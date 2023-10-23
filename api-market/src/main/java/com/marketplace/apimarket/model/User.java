@@ -25,6 +25,8 @@ public class User {
   @Column(name = "name")
   private String name;
 
+  private String username;
+
   @Column(name = "phone_number")
   private String phoneNumber;
 

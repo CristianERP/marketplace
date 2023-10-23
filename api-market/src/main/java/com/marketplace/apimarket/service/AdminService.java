@@ -28,6 +28,7 @@ public class AdminService {
           UserResponse UserResponse = new UserResponse();
           UserResponse.setId(user.getId());
           UserResponse.setName(user.getName());
+          UserResponse.setUsername(user.getUsername());
           UserResponse.setPhoneNumber(user.getPhoneNumber());
           UserResponse.setEmail(user.getEmail());
           UserResponse.setRole(user.getRole());
@@ -61,6 +62,10 @@ public class AdminService {
 
       if (userRequest.getName() != null) {
         user.setName(userRequest.getName());
+      }
+
+      if (userRequest.getUsername() != null) {
+        user.setName(userRequest.getUsername());
       }
 
       if (userRequest.getPhoneNumber() != null) {
