@@ -11,26 +11,8 @@
   z-index: 1000;
 }
 
-.form-label {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-bottom: 5px;
-}
-
-.form-span {
-  flex: 1;
-  margin-right: 10px;
-  text-align: right;
-}
-
-.form-input {
-  flex: 2;
-  font-size: 2rem;
-}
-
-.create-account-form button {
-  display: inline-block;
+.form-button {
+  display: block;
   font-size: 2rem;
   width: auto;
   margin: 0 auto;

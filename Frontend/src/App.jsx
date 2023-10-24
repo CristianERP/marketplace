@@ -1,8 +1,10 @@
 import './App.css'
 import LoginForm from './components/LoginForm'
 import { useState } from 'react';
-import { CreateForm } from './components/CreateForm';
+import { CreateUser } from './components/CreateUser';
 import { WaveImageDown, WaveImageUp } from './components/icons';
+
+
 
 function App() {
 
@@ -15,6 +17,7 @@ function App() {
   }
 
 
+
   return (
     <main className='main'>
       
@@ -24,8 +27,9 @@ function App() {
       <div className='main--content'>
         <section className="sign-in">
           {showLogin && <LoginForm />}
+
           <p onClick={handleShowCreateAccount}>Crear cuenta</p>
-            { showCreateAccount && <CreateForm handleShowCreateAccount = {handleShowCreateAccount}/> }
+            { showCreateAccount && <CreateUser handleShowCreateAccount = {handleShowCreateAccount}/> }
         </section>
       </div>
     </main>

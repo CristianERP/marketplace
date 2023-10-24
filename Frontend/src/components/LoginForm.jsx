@@ -1,19 +1,57 @@
-import './LoginForm.css'
+import { useState } from 'react';
 import { UserIcon, PadLockIcon } from "./icons";
+import loginService from '../services/login'
+import { Field } from './field';
 
 export function LoginForm() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [user, setUser] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
+
+  const handleLogin = async (event) => {
+    event.preventDefault()
+
+    try {
+      const user = await loginService.login({
+        email,
+        password
+      })
+      console.log(user)
+      setUser(user)
+      setEmail('')
+      setPassword('')
+      console.log('this is submiitttt')
+
+    } catch (e) {
+      setErrorMessage('Credenciales incorrectas')
+      console.log(errorMessage)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
+  }
 
   return (
-    <form className="login-form">
-      <label className="login-form__label">
-        <span> <UserIcon/> </span>
-        <input type="text" placeholder="Usuario"/>
-      </label>
-      <label className="login-form__label">
-        <span> <PadLockIcon/> </span>
-        <input type="password" placeholder="Password"/>
-      </label>
-      <button>Ingresar</button>
+    <form className="" onSubmit={handleLogin}>
+      <Field
+        spanChildren={<UserIcon />}
+        inputType={'email'}
+        inputplaceholder={'Correo'}
+        inputValue={email}
+        inputName={'email'}
+        inputOnChange={({ target }) => setEmail(target.value)}
+      />
+
+      <Field
+        spanChildren={<PadLockIcon />}
+        inputType={'password'}
+        inputplaceholder={'Password'}
+        inputValue={password}
+        inputName={'password'}
+        inputOnChange={({ target }) => setPassword(target.value)}
+      />
+      <button className='form-button'>Ingresar</button>
     </form>
   );
 }
