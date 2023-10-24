@@ -3,7 +3,7 @@ import { UserIcon, PadLockIcon } from "./icons";
 import loginService from '../services/login'
 import { Field } from './field';
 
-export function LoginForm( { handleChangeUser } ) {
+export function LoginUser( { handleChangeUser } ) {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -20,7 +20,6 @@ export function LoginForm( { handleChangeUser } ) {
       handleChangeUser(user)
       setEmail('')
       setPassword('')
-      console.log('this is submiitttt')
     } catch (e) {
       setErrorMessage('Credenciales incorrectas')
       console.log(errorMessage)
@@ -31,7 +30,7 @@ export function LoginForm( { handleChangeUser } ) {
   }
 
   return (
-    <form className="" onSubmit={handleLogin}>
+    <form onSubmit={handleLogin}>
       <Field
         spanChildren={<UserIcon />}
         inputType={'email'}
@@ -53,4 +52,3 @@ export function LoginForm( { handleChangeUser } ) {
     </form>
   );
 }
-export default LoginForm;

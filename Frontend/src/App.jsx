@@ -1,5 +1,5 @@
 import './App.css'
-import LoginForm from './components/LoginForm'
+import { LoginUser } from './components/LoginUser'
 import { useState } from 'react';
 import { CreateUser } from './components/CreateUser';
 import { WaveImageDown, WaveImageUp } from './components/icons';
@@ -39,7 +39,7 @@ function App() {
       <div className='main--login'>
 
         {(showLogin && user == null) && <section className="sign-in">
-          <LoginForm handleChangeUser={handleChangeUser}/>
+          <LoginUser handleChangeUser={handleChangeUser}/>
           <p onClick={handleShowCreateAccount}>Crear cuenta</p>
         </section>}
 
