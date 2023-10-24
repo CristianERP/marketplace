@@ -16,7 +16,7 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
-.main--content{
+.main--login{
   position: absolute;
   top: 50%; /* Posiciona el elemento en el 50% de la parte superior */
   left: 50%; /* Posiciona el elemento en el 50% de la parte izquierda */
