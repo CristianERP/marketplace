@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { CreateUser } from './components/CreateUser';
 import { WaveImageDown, WaveImageUp } from './components/icons';
 import { MainPage } from './components/MainPage';
+import { ListUsers } from './components/ListUsers';
 
 
 function App() {
@@ -31,23 +32,30 @@ function App() {
 
 
   return (
-    <main className='main'>
-      
-      <WaveImageDown/>
-      <WaveImageUp/>
-
-      <div className='main--login'>
-
-        {(showLogin && user == null) && <section className="sign-in">
-          <LoginUser handleChangeUser={handleChangeUser}/>
-          <p onClick={handleShowCreateAccount}>Crear cuenta</p>
-        </section>}
-
-        { showCreateAccount && <CreateUser handleShowCreateAccount = {handleShowCreateAccount}/> }
-
-        {user && <MainPage handleChangeUser={handleChangeUser}/>}
+    <>
+      <header>
+        <WaveImageDown />
+      </header>
+      <div className='content'>
+        <main className='main'>
+          <div className='main-content'>
+            {(showLogin && user == null) && <section className="sign-in">
+              <LoginUser handleChangeUser={handleChangeUser} />
+              <p onClick={handleShowCreateAccount}>Crear cuenta</p>
+            </section>}
+            {showCreateAccount && <CreateUser handleShowCreateAccount={handleShowCreateAccount} />}
+            {user && <MainPage handleChangeUser={handleChangeUser} />}
+          </div>
+        </main>
+        {user && <aside className='aside'>
+          <ListUsers token={user.token}/>
+        </aside>}
       </div>
-    </main>
+
+      <footer>
+        <WaveImageUp />
+      </footer>
+    </>
   )
 }
 

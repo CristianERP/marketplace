@@ -1,6 +1,6 @@
 import './Form.css'
 import { Field } from './field'
-import loginService from '../services/login'
+import loginService from '../services/Login'
 import { useState } from 'react'
 
 
@@ -50,7 +50,7 @@ export const CreateUser = ({ handleShowCreateAccount }) => {
 
   return (
 
-    <div className='create-account-form'>
+    <div className='square'>
       <form onSubmit={handleCreateUser} >
         <Field
           spanChildren={'Nombre'}

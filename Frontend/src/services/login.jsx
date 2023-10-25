@@ -1,5 +1,6 @@
 import axios from 'axios'
 
+// const baseUrlAuth = 'https://api-rest-marketplace.onrender.com/auth'
 const baseUrlAuth = 'http://localhost:8094/auth'
 
 const login = async credentials => {
