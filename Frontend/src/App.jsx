@@ -29,7 +29,16 @@ function App() {
     }
   }
 
-
+  //TODO: Que al dar click sobre el icono de settings en la lista de usuarios, haga que aparezca el 
+  //renderice un componente CreateUser dentro del componente MainPage y cambiarle al boton de 
+  //crear cuenta a actualizar usuario (hacer servicio de usuario) y ademas aparezca en el componente
+  //CreateUser otro boton que diga eliminar usuario
+  //En lugar de usar createUser y que sirva para crear usuario y actualiar puede hacer un componente
+  //nuevo y ya xD
+  const [userUpdate, setUserUpdate] = useState()
+  const handleUpdateOtherUser = () => {
+    console.log('')
+  }
 
   return (
     <div className='page'>
@@ -48,7 +57,7 @@ function App() {
           </div>
         </main>
         {user && <aside className='aside'>
-          <ListUsers token={user.token}/>
+          <ListUsers userLogged={{...user}} />
         </aside>}
       </div>
 
