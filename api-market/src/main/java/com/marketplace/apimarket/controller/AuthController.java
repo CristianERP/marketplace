@@ -17,6 +17,8 @@ import com.marketplace.apimarket.jwt.JwtUtil;
 import com.marketplace.apimarket.model.User;
 import com.marketplace.apimarket.service.UserService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping(path = "/auth")
 public class AuthController {
@@ -24,7 +26,7 @@ public class AuthController {
   private UserService userService;
 
   @PostMapping("/register")
-  public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
+  public ResponseEntity<String> register(@Valid @RequestBody RegisterRequest request) {
     Optional<User> existingUser = userService.findUserByEmail(request.getEmail());
     if (existingUser.isPresent()) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El correo electrónico ya está en uso.");

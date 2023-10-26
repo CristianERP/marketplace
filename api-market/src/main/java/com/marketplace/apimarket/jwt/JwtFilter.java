@@ -2,6 +2,7 @@ package com.marketplace.apimarket.jwt;
 
 import java.io.IOException;
 
+import org.springframework.http.HttpMethod;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -15,6 +16,11 @@ public class JwtFilter extends OncePerRequestFilter {
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
+
+    if (request.getMethod().equals(HttpMethod.OPTIONS.name())) {
+      filterChain.doFilter(request, response);
+      return;
+    }
 
     if (request.getServletPath().matches("/auth/login|/auth/register")) {
       filterChain.doFilter(request, response);
