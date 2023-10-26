@@ -32,8 +32,8 @@ function App() {
 
 
   return (
-    <>
-      <header>
+    <div className='page'>
+      <header className='header'>
         <WaveImageDown />
       </header>
       <div className='content'>
@@ -52,10 +52,10 @@ function App() {
         </aside>}
       </div>
 
-      <footer>
+      <footer className='footer'>
         <WaveImageUp />
       </footer>
-    </>
+    </div>
   )
 }
 
