@@ -18,7 +18,6 @@ const UserTable = ({ user }) => {
   }, [])
 
   const handleRowClick = (user) => {
-    console.log(user)
     setSelectedUser(user);
   }
 
