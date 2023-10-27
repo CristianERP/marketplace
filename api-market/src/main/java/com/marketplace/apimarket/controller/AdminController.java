@@ -13,6 +13,7 @@ import com.marketplace.apimarket.dto.UserResponse;
 import com.marketplace.apimarket.service.AdminService;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,7 +44,7 @@ public class AdminController {
   }
 
   @PutMapping(value = "/user/{id}")
-  public ResponseEntity<?> updateUser(@PathVariable Integer id, @RequestBody UserRequest userRequest) {
+  public ResponseEntity<?> updateUser(@PathVariable Integer id, @Valid @RequestBody UserRequest userRequest) {
     try {
       UserResponse userResponse = adminService.updateUser(id, userRequest);
       return ResponseEntity.ok(userResponse);
