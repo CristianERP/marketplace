@@ -65,7 +65,7 @@ public class AdminService {
       }
 
       if (userRequest.getUsername() != null) {
-        user.setName(userRequest.getUsername());
+        user.setUsername(userRequest.getUsername());
       }
 
       if (userRequest.getPhoneNumber() != null) {
@@ -85,6 +85,7 @@ public class AdminService {
       UserResponse userResponse = new UserResponse();
       userResponse.setId(user.getId());
       userResponse.setName(user.getName());
+      userResponse.setUsername(user.getUsername());
       userResponse.setPhoneNumber(user.getPhoneNumber());
       userResponse.setEmail(user.getEmail());
       userResponse.setRole(user.getRole());
