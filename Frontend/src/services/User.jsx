@@ -14,5 +14,16 @@ const getAllUsers = async (token) => {
   return data
 }
 
+const deleteUser = async (token, userId) => {
+  const config = {
+    credentials: 'same-origin',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+  const { data } = await axios.delete(baseUrlUser + '/user/' + userId, config)
+  return data
+}
 
-export default { getAllUsers }
+
+export default { getAllUsers, deleteUser }

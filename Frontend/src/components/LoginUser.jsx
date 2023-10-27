@@ -3,7 +3,7 @@ import { UserIcon, PadLockIcon } from "./icons";
 import loginService from '../services/Login'
 import { Field } from './field';
 
-export function LoginUser( { handleChangeUser } ) {
+export function LoginUser({ handleChangeUser }) {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')

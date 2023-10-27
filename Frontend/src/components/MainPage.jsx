@@ -1,10 +1,14 @@
 import './Form.css'
+import AdminNav from './Nav/AdminNav'
+import Nav from './Nav/Nav'
+import UserTable from './UserTable/UserTable'
 
-export const MainPage = ( { handleChangeUser } ) => {
+export const MainPage = ({ handleChangeUser, user }) => {
+
   return (
     <section>
-      <h1>Felicidades, estas logeado xD</h1>
-      <button onClick={handleChangeUser} className='form-button' >Cerrar sesion</button>
+      {user.role === "admin" ? <AdminNav handleChangeUser={handleChangeUser} user={user} /> : <Nav handleChangeUser={handleChangeUser} user={user} />}
+      {user.role === "admin" ? <UserTable user={user} /> : ""}
     </section>
   )
 }

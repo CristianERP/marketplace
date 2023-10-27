@@ -1,6 +1,6 @@
 import './App.css'
 import { LoginUser } from './components/LoginUser'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CreateUser } from './components/CreateUser';
 import { WaveImageDown, WaveImageUp } from './components/icons';
 import { MainPage } from './components/MainPage';
@@ -12,6 +12,8 @@ function App() {
   const [showCreateAccount, setShowCreateAccount] = useState(false);
   const [showLogin, setShowLogin] = useState(true);
   const [user, setUser] = useState(null)
+  const [role, setRole] = useState(null)
+
 
   const handleShowCreateAccount = () => {
     setShowCreateAccount(!showCreateAccount)
@@ -21,13 +23,16 @@ function App() {
   const handleChangeUser = (newUser) => {
     if (user == null) {
       setUser(newUser)
-      console.log('inicio sesion')
+      setRole(newUser.role)
+      console.log('Inicio de sesión exitoso:', newUser);
     }
     else {
       setUser(null)
-      console.log('cerro sesion')
+      setRole(null)
+      console.log('Cierre de sesión')
     }
   }
+
 
   //TODO: Que al dar click sobre el icono de settings en la lista de usuarios, haga que aparezca el 
   //renderice un componente CreateUser dentro del componente MainPage y cambiarle al boton de 
@@ -53,12 +58,12 @@ function App() {
               <p onClick={handleShowCreateAccount}>Crear cuenta</p>
             </section>}
             {showCreateAccount && <CreateUser handleShowCreateAccount={handleShowCreateAccount} />}
-            {user && <MainPage handleChangeUser={handleChangeUser} />}
+            {user && <MainPage handleChangeUser={handleChangeUser} user={user} />}
           </div>
         </main>
-        {user && <aside className='aside'>
-          <ListUsers userLogged={{...user}} />
-        </aside>}
+        {/* {role == "admin" && <aside className='aside'>
+          <ListUsers userLogged={{ ...user }} />
+        </aside>} */}
       </div>
 
       <footer className='footer'>
