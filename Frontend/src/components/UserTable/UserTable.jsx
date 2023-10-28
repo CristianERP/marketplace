@@ -7,7 +7,8 @@ import Modal from '../Modal/Modal';
 
 const UserTable = ({ user }) => {
   const [users, setUsers] = useState([])
-  const [selectedUser, setSelectedUser] = useState(null)
+  const [selectedUserUpdate, setSelectedUserUpdate] = useState(null)
+  const [selectedUserDelete, setSelectedUserDelete] = useState(null)
 
   useEffect(() => {
     async function fetchData() {
@@ -15,28 +16,40 @@ const UserTable = ({ user }) => {
       setUsers(data)
     }
     fetchData()
-  }, [])
+  })
 
-  const handleRowClick = (user) => {
-    setSelectedUser(user);
+
+  const handleClickUpdate = (user) => {
+    setSelectedUserUpdate(user)
+  }
+  const handleUpdateUser = async (updateUser) => {
+    console.log('antes de actualizar el usuario en BD ', updateUser)
+    try {
+      console.log('actualizando usuario')
+      const userUpdate = await userServices.updateUser(user.token, updateUser)
+      console.log('usuario actualizado: ', userUpdate)
+    } catch (error) {
+      console.log('error al actualizar el usuario', error)
+    }
   }
 
-  const handleUpdateUser = () => {
-    // Implementa la lógica para actualizar el usuario aquí
-  }
-
-  const handleCloseModal = () => {
-    setSelectedUser(null);
+  const handleClickDelete = (user) => {
+    setSelectedUserDelete(user)
   }
   const handleDeleteUser = async () => {
     try {
-      await userServices.deleteUser(user.token, selectedUser.id);
-      const updatedUsers = users.filter(user => user.id !== selectedUser.id);
+      await userServices.deleteUser(user.token, selectedUserDelete.id);
+      const updatedUsers = users.filter(user => user.id !== selectedUserDelete.id);
       setUsers(updatedUsers);
-      setSelectedUser(null);
+      setSelectedUserDelete(null);
     } catch (error) {
       console.error('Error al eliminar el usuario:', error);
     }
+  }
+
+  const handleCloseModal = () => {
+    setSelectedUserUpdate(null);
+    setSelectedUserDelete(null);
   }
 
   return (
@@ -55,7 +68,7 @@ const UserTable = ({ user }) => {
         </thead>
         <tbody>
           {users.map(user => (
-            <tr key={user.id} onClick={() => handleRowClick(user)}>
+            <tr key={user.id}>
               <td>{user.id}</td>
               <td>{user.name}</td>
               <td>{user.email}</td>
@@ -63,20 +76,20 @@ const UserTable = ({ user }) => {
               <td>{user.role}</td>
               <td>{user.username}</td>
               <td>
-                <button>Actualizar</button>
-                <button>Eliminar</button>
+                <button onClick={() => handleClickUpdate(user)}>Actualizar</button>
+                <button onClick={() => handleClickDelete(user)}>Eliminar</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      {selectedUser && (
+      {(selectedUserDelete || selectedUserUpdate) && (
         <Modal
-          user={selectedUser}
+          user={selectedUserDelete ?? selectedUserUpdate}
           handleClose={handleCloseModal}
-          handleUpdate={handleUpdateUser}
-          handleDelete={handleDeleteUser}
+          handleFunction={selectedUserDelete ? handleDeleteUser : handleUpdateUser}
+          isDelete={selectedUserDelete ? true : false}
         />
       )}
     </div>

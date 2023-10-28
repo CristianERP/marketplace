@@ -25,5 +25,17 @@ const deleteUser = async (token, userId) => {
   return data
 }
 
+const updateUser = async (token, userUpdateData) => {
+  const config = {
+    credentials: 'same-origin',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+  const { data } = await axios.put(baseUrlUser + '/user/' + userUpdateData.id, userUpdateData, config)
+  return data
+}
 
-export default { getAllUsers, deleteUser }
+
+
+export default { getAllUsers, deleteUser,  updateUser }
