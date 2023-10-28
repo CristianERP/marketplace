@@ -27,6 +27,7 @@ const UserTable = ({ user }) => {
     try {
       console.log('actualizando usuario')
       const userUpdate = await userServices.updateUser(user.token, updateUser)
+      handleCloseModal()
       console.log('usuario actualizado: ', userUpdate)
     } catch (error) {
       console.log('error al actualizar el usuario', error)
