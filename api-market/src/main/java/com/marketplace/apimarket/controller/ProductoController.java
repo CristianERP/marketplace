@@ -18,6 +18,7 @@ import com.marketplace.apimarket.model.Product;
 import com.marketplace.apimarket.service.ProductService;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @RestController
@@ -43,7 +44,11 @@ public class ProductoController {
   }
 
   @PostMapping
-  public ResponseEntity<?> createProduct(@Valid @RequestBody Product producto) {
+  public ResponseEntity<?> createProduct(HttpServletRequest request, @Valid @RequestBody Product producto) {
+
+    int id = (int) request.getAttribute("id");
+    producto.setUserId(id);
+
     productService.createProduct(producto);
     return ResponseEntity.status(HttpStatus.CREATED).body("Producto creado correctamente.");
   }

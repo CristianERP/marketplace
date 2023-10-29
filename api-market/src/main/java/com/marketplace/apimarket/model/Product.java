@@ -3,6 +3,7 @@ package com.marketplace.apimarket.model;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -35,5 +36,8 @@ public class Product {
   @NotNull(message = "El stock es obligatorio")
   @Min(value = 0, message = "El stock debe ser mayor o igual a cero")
   private Integer stock;
+
+  @Column(name = "user_id", nullable = false)
+  private Integer userId;
 
 }
