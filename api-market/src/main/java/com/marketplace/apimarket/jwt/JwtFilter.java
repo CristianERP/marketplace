@@ -1,6 +1,7 @@
 package com.marketplace.apimarket.jwt;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -38,13 +39,17 @@ public class JwtFilter extends OncePerRequestFilter {
 
     try {
       // Verificar el token
-      String email = JwtUtil.extractEmail(token);
+      HashMap<String, String> idAndEmail = JwtUtil.extractIdAndEmail(token);
+
+      String idString = idAndEmail.get("id");
+      int id = Integer.parseInt(idString);
+      String email = idAndEmail.get("email");
 
       request.setAttribute("email", email);
+      request.setAttribute("id", id);
 
       filterChain.doFilter(request, response);
     } catch (ExpiredJwtException e) {
-      System.out.println("expirdo");
       response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token expirado");
     } catch (Exception e) {
       System.out.println("Invalido");

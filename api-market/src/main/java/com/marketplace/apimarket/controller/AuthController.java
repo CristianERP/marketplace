@@ -48,7 +48,7 @@ public class AuthController {
     Optional<User> authenticatedUserOptional = userService.authenticateUser(request);
     if (authenticatedUserOptional.isPresent()) {
       User authenticatedUser = authenticatedUserOptional.get();
-      String token = JwtUtil.generateToken(authenticatedUser.getEmail());
+      String token = JwtUtil.generateToken(authenticatedUser.getId(), authenticatedUser.getEmail());
 
       AuthenticationResponse response = new AuthenticationResponse();
       response.setName(authenticatedUser.getName());
