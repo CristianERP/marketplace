@@ -2,6 +2,7 @@ package com.marketplace.apimarket.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,18 @@ public class ProductService {
       throw new EntityNotFoundException("Producto no encontrado con ID: " + id);
     }
 
+  }
+
+  public List<Product> getProductsUser(Integer idUser) {
+    List<Optional<Product>> productsOptional = productRepository.findByUserId(idUser);
+
+    List<Product> products = productsOptional
+        .stream()
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .collect(Collectors.toList());
+
+    return products;
   }
 
   public Product createProduct(Product product) {

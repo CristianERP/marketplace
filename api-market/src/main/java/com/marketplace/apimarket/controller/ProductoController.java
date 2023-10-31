@@ -43,6 +43,18 @@ public class ProductoController {
 
   }
 
+  @GetMapping("/user")
+  public ResponseEntity<?> getProductsUser(HttpServletRequest request) {
+    try {
+      int id = (int) request.getAttribute("id");
+      List<Product> productsRespond = productService.getProductsUser(id);
+      return ResponseEntity.ok(productsRespond);
+    } catch (EntityNotFoundException e) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+
+  }
+
   @PostMapping
   public ResponseEntity<?> createProduct(HttpServletRequest request, @Valid @RequestBody Product producto) {
 
