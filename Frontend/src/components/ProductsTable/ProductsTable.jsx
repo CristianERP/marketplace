@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import productsServices from '../../services/Product'
 import ModalProducts from './ModalProducts'
+import userServices from '../../services/User'
 
 const ProductsTable = ({ user }) => {
   const [products, setProducts] = useState([])
@@ -14,7 +15,7 @@ const ProductsTable = ({ user }) => {
       setProducts(data)
     }
     fetchData()
-  })
+  }, [products])
 
 
   const handleClickUpdate = (product) => {
@@ -46,6 +47,17 @@ const ProductsTable = ({ user }) => {
     }
   }
 
+  const handleGetUser = async (userId) => {
+    try {
+      console.log(userId)
+      const userProduct = await userServices.getUser(user.token, userId)
+      console.log(userProduct)
+      return userProduct.name
+    } catch (error) {
+      console.log('Ocurrio un error: ', error)
+    }
+  }
+
   const handleCloseModal = () => {
     setSelectedProductUpdate(null);
     setSelectedProductDelete(null);
@@ -74,16 +86,21 @@ const ProductsTable = ({ user }) => {
               <td>{product.description}</td>
               <td>{product.price.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</td>
               <td>{product.stock}</td>
+              {/* <td>{ handleGetUser(product.userId)}</td> */}
               <td>{product.userId}</td>
-              {<td>
-                <button onClick={() => handleClickUpdate(product)}>Actualizar</button>
-                {/* TODO: Hay que hacer que el usuario que crea el producto sea el que lo pueda editar */}
-                <button onClick={() => handleClickDelete(product)}>Eliminar</button>
-              </td>}
+              {/* TODO: usar la funcion handleGetUser para cambiar el id por name */}
+              <td>
+                {(user.role === 'admin' || user.id === product.userId)
+                  && <button onClick={() => handleClickUpdate(product)}>Actualizar</button>}
+                {(user.role === 'admin' || user.id === product.userId)
+                  && <button onClick={() => handleClickDelete(product)}>Eliminar</button>}
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {/*TODO: Implementar la funcion de crear producto */}
 
       {(selectedProductDelete || selectedProductUpdate) && (
         <ModalProducts

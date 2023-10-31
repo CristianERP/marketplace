@@ -8,8 +8,17 @@ import ProductsTable from './ProductsTable/ProductsTable'
 
 export const MainPage = ({ handleChangeUser, user }) => {
 
+  const [userLogged, setUserLogged] = useState(user)
   const [showUserTable, setShowUserTable] = useState(true)
   const [showProductsTable, setShowProductsTable] = useState(false)
+
+  const handleUserLogged = (dataUpdateUser) => {
+    const updatedUser = { ...user }
+    updatedUser.name = dataUpdateUser.name
+    updatedUser.username = dataUpdateUser.username
+    // console.log('actualizando valores ',updatedUser)
+    setUserLogged(updatedUser)
+  }
 
   const handleShowUserTable = (stateUser) => {
     setShowUserTable(stateUser)
@@ -21,21 +30,17 @@ export const MainPage = ({ handleChangeUser, user }) => {
 
   return (
     <section>
-      {/* {user.role === "admin" ?
-        <AdminNav handleChangeUser={handleChangeUser}
-          user={user}
-          handleShowUserTable={handleShowUserTable}
-          handleShowProductsTable={handleShowProductsTable} /> :
-        <Nav handleChangeUser={handleChangeUser}
-          user={user} />
-      } */}
-      <AdminNav handleChangeUser={handleChangeUser}
-          user={user}
-          handleShowUserTable={handleShowUserTable}
-          handleShowProductsTable={handleShowProductsTable} />
-      {/* {(user.role === "admin" && showUserTable) ? <UserTable user={user} /> : ""} */}
-      {showUserTable && <UserTable userLogged={user} />}
-      {showProductsTable && <ProductsTable user={user}/>}
+      <AdminNav
+        handleChangeUser={handleChangeUser}
+        user={userLogged}
+        handleShowUserTable={handleShowUserTable}
+        handleShowProductsTable={handleShowProductsTable} />
+      {showUserTable &&
+        <UserTable
+          userLogged={userLogged}
+          handleUserLogged={handleUserLogged}
+          handleChangeUser={handleChangeUser} />}
+      {showProductsTable && <ProductsTable user={userLogged} />}
     </section>
   )
 }

@@ -5,18 +5,19 @@ import "./UserTable.css"
 import Modal from '../Modal/Modal';
 
 
-const UserTable = ({ userLogged }) => {
+const UserTable = ({ userLogged, handleUserLogged, handleChangeUser }) => {
   const [users, setUsers] = useState([])
   const [selectedUserUpdate, setSelectedUserUpdate] = useState(null)
   const [selectedUserDelete, setSelectedUserDelete] = useState(null)
 
   useEffect(() => {
+    console.log('hola')
     async function fetchData() {
       const data = await userServices.getAllUsers(userLogged.token)
       setUsers(data)
     }
     fetchData()
-  })
+  }, [])
 
 
   const handleClickUpdate = (user) => {
@@ -29,10 +30,25 @@ const UserTable = ({ userLogged }) => {
       const userUpdate = await userServices.updateUser(userLogged.token, updateUser)
       handleCloseModal()
       console.log('usuario actualizado: ', userUpdate)
+      let usersUpdated = [...users]
+      usersUpdated = usersUpdated.map((user) => {
+        if( userUpdate.id === userLogged.id && user.id === userUpdate.id){
+          handleUserLogged(userUpdate)
+          return userUpdate
+        } else if (user.id === userUpdate.id) {
+          return userUpdate
+        }
+        else {
+          return user
+        }
+      })
+      setUsers(usersUpdated)
     } catch (error) {
       console.log('error al actualizar el usuario', error)
     }
   }
+
+
 
   const handleClickDelete = (user) => {
     setSelectedUserDelete(user)
@@ -41,12 +57,24 @@ const UserTable = ({ userLogged }) => {
     try {
       await userServices.deleteUser(userLogged.token, selectedUserDelete.id);
       const updatedUsers = users.filter(user => user.id !== selectedUserDelete.id);
+
+      verifyDeletedUserIsNotRegistered()
+
       setUsers(updatedUsers);
       setSelectedUserDelete(null);
     } catch (error) {
       console.error('Error al eliminar el usuario:', error);
     }
   }
+  
+  const verifyDeletedUserIsNotRegistered = () => {
+    const userDeleted = users.find(user => user.id === selectedUserDelete.id)
+      if (userDeleted.id === userLogged.id) {
+        handleChangeUser()
+      }
+  }
+
+
 
   const handleCloseModal = () => {
     setSelectedUserUpdate(null);
@@ -77,8 +105,10 @@ const UserTable = ({ userLogged }) => {
               <td>{user.role}</td>
               <td>{user.username}</td>
               <td>
-                {(userLogged.role === 'admin' || user.name === userLogged.name) && <button onClick={() => handleClickUpdate(user)}>Actualizar</button>}
-                {(userLogged.role === 'admin' || user.name === userLogged.name) && <button onClick={() => handleClickDelete(user)}>Eliminar</button>}
+                {(userLogged.role === 'admin' || user.id === userLogged.id) &&
+                  <button onClick={() => handleClickUpdate(user)}>Actualizar</button>}
+                {(userLogged.role === 'admin' || user.id === userLogged.id) &&
+                  <button onClick={() => handleClickDelete(user)}>Eliminar</button>}
               </td>
             </tr>
           ))}

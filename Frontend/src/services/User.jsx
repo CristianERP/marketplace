@@ -14,17 +14,16 @@ const getAllUsers = async (token) => {
   return data
 }
 
-//TODO: Implementar el getUser
-// const getUser = async (token) => {
-//   const config = {
-//     credentials: 'same-origin',
-//     headers: {
-//       Authorization: `Bearer ${token}`
-//     }
-//   }
-//   const { data } = await axios.get(baseUrlUser + '/users', config)
-//   return data
-// }
+const getUser = async (token, userId) => {
+  const config = {
+    credentials: 'same-origin',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+  const { data } = await axios.get(baseUrlUser + '/user/' + userId, config)
+  return data
+}
 
 const updateUser = async (token, userUpdateData) => {
   const config = {
@@ -50,4 +49,4 @@ const deleteUser = async (token, userId) => {
 
 
 
-export default { getAllUsers, deleteUser,  updateUser }
+export default { getAllUsers, getUser, deleteUser,  updateUser }
