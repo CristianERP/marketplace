@@ -14,16 +14,17 @@ const getAllUsers = async (token) => {
   return data
 }
 
-const deleteUser = async (token, userId) => {
-  const config = {
-    credentials: 'same-origin',
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  }
-  const { data } = await axios.delete(baseUrlUser + '/user/' + userId, config)
-  return data
-}
+//TODO: Implementar el getUser
+// const getUser = async (token) => {
+//   const config = {
+//     credentials: 'same-origin',
+//     headers: {
+//       Authorization: `Bearer ${token}`
+//     }
+//   }
+//   const { data } = await axios.get(baseUrlUser + '/users', config)
+//   return data
+// }
 
 const updateUser = async (token, userUpdateData) => {
   const config = {
@@ -33,6 +34,17 @@ const updateUser = async (token, userUpdateData) => {
     }
   }
   const { data } = await axios.put(baseUrlUser + '/user/' + userUpdateData.id, userUpdateData, config)
+  return data
+}
+
+const deleteUser = async (token, userId) => {
+  const config = {
+    credentials: 'same-origin',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+  const { data } = await axios.delete(baseUrlUser + '/user/' + userId, config)
   return data
 }
 

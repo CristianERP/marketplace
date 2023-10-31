@@ -5,14 +5,14 @@ import "./UserTable.css"
 import Modal from '../Modal/Modal';
 
 
-const UserTable = ({ user }) => {
+const UserTable = ({ userLogged }) => {
   const [users, setUsers] = useState([])
   const [selectedUserUpdate, setSelectedUserUpdate] = useState(null)
   const [selectedUserDelete, setSelectedUserDelete] = useState(null)
 
   useEffect(() => {
     async function fetchData() {
-      const data = await userServices.getAllUsers(user.token)
+      const data = await userServices.getAllUsers(userLogged.token)
       setUsers(data)
     }
     fetchData()
@@ -26,7 +26,7 @@ const UserTable = ({ user }) => {
     console.log('antes de actualizar el usuario en BD ', updateUser)
     try {
       console.log('actualizando usuario')
-      const userUpdate = await userServices.updateUser(user.token, updateUser)
+      const userUpdate = await userServices.updateUser(userLogged.token, updateUser)
       handleCloseModal()
       console.log('usuario actualizado: ', userUpdate)
     } catch (error) {
@@ -39,7 +39,7 @@ const UserTable = ({ user }) => {
   }
   const handleDeleteUser = async () => {
     try {
-      await userServices.deleteUser(user.token, selectedUserDelete.id);
+      await userServices.deleteUser(userLogged.token, selectedUserDelete.id);
       const updatedUsers = users.filter(user => user.id !== selectedUserDelete.id);
       setUsers(updatedUsers);
       setSelectedUserDelete(null);
@@ -77,8 +77,8 @@ const UserTable = ({ user }) => {
               <td>{user.role}</td>
               <td>{user.username}</td>
               <td>
-                <button onClick={() => handleClickUpdate(user)}>Actualizar</button>
-                <button onClick={() => handleClickDelete(user)}>Eliminar</button>
+                {(userLogged.role === 'admin' || user.name === userLogged.name) && <button onClick={() => handleClickUpdate(user)}>Actualizar</button>}
+                {(userLogged.role === 'admin' || user.name === userLogged.name) && <button onClick={() => handleClickDelete(user)}>Eliminar</button>}
               </td>
             </tr>
           ))}

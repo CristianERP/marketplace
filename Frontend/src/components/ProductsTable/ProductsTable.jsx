@@ -75,10 +75,11 @@ const ProductsTable = ({ user }) => {
               <td>{product.price.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</td>
               <td>{product.stock}</td>
               <td>{product.userId}</td>
-              <td>
+              {<td>
                 <button onClick={() => handleClickUpdate(product)}>Actualizar</button>
+                {/* TODO: Hay que hacer que el usuario que crea el producto sea el que lo pueda editar */}
                 <button onClick={() => handleClickDelete(product)}>Eliminar</button>
-              </td>
+              </td>}
             </tr>
           ))}
         </tbody>

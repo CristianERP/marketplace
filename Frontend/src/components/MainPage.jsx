@@ -21,15 +21,20 @@ export const MainPage = ({ handleChangeUser, user }) => {
 
   return (
     <section>
-      {user.role === "admin" ?
+      {/* {user.role === "admin" ?
         <AdminNav handleChangeUser={handleChangeUser}
           user={user}
           handleShowUserTable={handleShowUserTable}
           handleShowProductsTable={handleShowProductsTable} /> :
         <Nav handleChangeUser={handleChangeUser}
           user={user} />
-      }
-      {(user.role === "admin" && showUserTable) ? <UserTable user={user} /> : ""}
+      } */}
+      <AdminNav handleChangeUser={handleChangeUser}
+          user={user}
+          handleShowUserTable={handleShowUserTable}
+          handleShowProductsTable={handleShowProductsTable} />
+      {/* {(user.role === "admin" && showUserTable) ? <UserTable user={user} /> : ""} */}
+      {showUserTable && <UserTable userLogged={user} />}
       {showProductsTable && <ProductsTable user={user}/>}
     </section>
   )
