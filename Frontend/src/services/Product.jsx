@@ -47,4 +47,4 @@ const deleteProduct = async (token, productId) => {
   return data
 }
 
-export default { getAllProducts, deleteProduct, updateProduct }
+export default { getAllProducts, deleteProduct, updateProduct, createProduct  }
