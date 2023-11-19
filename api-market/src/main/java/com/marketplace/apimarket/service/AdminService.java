@@ -44,6 +44,8 @@ public class AdminService {
     if (userOptional.isPresent()) {
       User user = userOptional.get();
       UserResponse userResponse = new UserResponse();
+      userResponse.setId(user.getId());
+      userResponse.setUsername(user.getUsername());
       userResponse.setName(user.getName());
       userResponse.setEmail(user.getEmail());
       userResponse.setPhoneNumber(user.getPhoneNumber());

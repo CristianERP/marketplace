@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.marketplace.apimarket.dto.ProductResponse;
 import com.marketplace.apimarket.model.Product;
 import com.marketplace.apimarket.service.ProductService;
 
@@ -28,14 +29,14 @@ public class ProductoController {
   private ProductService productService;
 
   @GetMapping
-  public ResponseEntity<List<Product>> getProducts() {
+  public ResponseEntity<List<ProductResponse>> getProducts() {
     return ResponseEntity.ok(productService.getProducts());
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<?> getProduct(@PathVariable Integer id) {
     try {
-      Product productRespond = productService.getProductById(id);
+      ProductResponse productRespond = productService.getProductById(id);
       return ResponseEntity.ok(productRespond);
     } catch (EntityNotFoundException e) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
