@@ -7,8 +7,12 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.marketplace.apimarket.dto.ProductResponse;
+import com.marketplace.apimarket.dto.UserResponse;
 import com.marketplace.apimarket.model.Product;
+import com.marketplace.apimarket.model.User;
 import com.marketplace.apimarket.repository.ProductRepository;
+import com.marketplace.apimarket.repository.UserRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -17,16 +21,67 @@ public class ProductService {
   @Autowired
   private ProductRepository productRepository;
 
-  public List<Product> getProducts() {
-    return productRepository.findAll();
+  @Autowired
+  private UserRepository userRepository;
+
+  public List<ProductResponse> getProducts() {
+    List<Product> products = productRepository.findAll();
+
+    return products.stream()
+        .map(this::convertToResponse)
+        .collect(Collectors.toList());
   }
 
-  public Product getProductById(Integer id) {
+  private ProductResponse convertToResponse(Product product) {
+    ProductResponse response = new ProductResponse();
+
+    response.setId(product.getId());
+    response.setName(product.getName());
+    response.setCategory(product.getCategory());
+    response.setDescription(product.getDescription());
+    response.setPrice(product.getPrice());
+    response.setStock(product.getStock());
+
+    UserResponse userResponse = new UserResponse();
+    Optional<User> userOptional = userRepository.findById(product.getUserId());
+    User user = userOptional.get();
+
+    userResponse.setId(user.getId());
+    userResponse.setUsername(user.getUsername());
+    userResponse.setName(user.getName());
+    userResponse.setEmail(user.getEmail());
+    userResponse.setPhoneNumber(user.getPhoneNumber());
+    userResponse.setRole(user.getRole());
+    response.setUser(userResponse);
+
+    return response;
+  }
+
+  public ProductResponse getProductById(Integer id) {
 
     Optional<Product> productOptional = productRepository.findById(id);
     if (productOptional.isPresent()) {
+      ProductResponse response = new ProductResponse();
       Product product = productOptional.get();
-      return product;
+      UserResponse userResponse = new UserResponse();
+      Optional<User> userOptional = userRepository.findById(product.getUserId());
+      User user = userOptional.get();
+
+      userResponse.setId(user.getId());
+      userResponse.setUsername(user.getUsername());
+      userResponse.setName(user.getName());
+      userResponse.setEmail(user.getEmail());
+      userResponse.setPhoneNumber(user.getPhoneNumber());
+      userResponse.setRole(user.getRole());
+
+      response.setId(product.getId());
+      response.setName(product.getName());
+      response.setCategory(product.getCategory());
+      response.setDescription(product.getDescription());
+      response.setPrice(product.getPrice());
+      response.setStock(product.getStock());
+      response.setUser(userResponse);
+      return response;
     } else {
       throw new EntityNotFoundException("Producto no encontrado con ID: " + id);
     }
@@ -52,6 +107,7 @@ public class ProductService {
     newProduct.setDescription(product.getDescription());
     newProduct.setPrice(product.getPrice());
     newProduct.setStock(product.getStock());
+    newProduct.setCategory(product.getCategory());
 
     return productRepository.save(product);
   }
@@ -77,6 +133,10 @@ public class ProductService {
 
       if (newProduct.getPrice() != 0) {
         productRespond.setPrice(newProduct.getPrice());
+      }
+
+      if (newProduct.getCategory() != null) {
+        productRespond.setCategory(newProduct.getCategory());
       }
 
       productRepository.save(productRespond);
