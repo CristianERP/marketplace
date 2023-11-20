@@ -25,7 +25,7 @@ public class OrderService {
   @Autowired
   private ProductRepository productRepository;
 
-  public Order createOrder(int userId, OrderRequest orderRequest) {
+  public Order createOrder(int userId, OrderRequest orderRequest) throws Exception {
     Order order = new Order();
     order.setDate(orderRequest.getDate());
     order.setUserId(userId);
@@ -40,6 +40,16 @@ public class OrderService {
       if (productOptional.isPresent()) {
         Product product = productOptional.get();
 
+        int newStock = product.getStock() - detailOrderRequest.getAmount();
+        if (newStock < 0) {
+          throw new Exception("Stock insuficiente para el producto con ID: " + product.getId());
+        }
+
+        if (detailOrderRequest.getAmount() * product.getPrice() != detailOrderRequest.getTotal()) {
+          throw new Exception(
+              "El total no coincide con la cantidad * precio para el producto con ID: " + product.getId());
+        }
+
         DetailOrder detailOrder = new DetailOrder();
         detailOrder.setProduct(product);
         detailOrder.setAmount(detailOrderRequest.getAmount());
@@ -48,6 +58,13 @@ public class OrderService {
         totalOrder += detailOrderRequest.getTotal();
         detailOrders.add(detailOrder);
       }
+    }
+
+    for (DetailOrder detailOrder : detailOrders) {
+      Product product = detailOrder.getProduct();
+      int newStock = product.getStock() - detailOrder.getAmount();
+      product.setStock(newStock);
+      productRepository.save(product);
     }
 
     order.setDetailOrder(detailOrders);
