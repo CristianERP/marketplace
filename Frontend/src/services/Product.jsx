@@ -1,5 +1,4 @@
-import axios from "axios"
-
+import axios from 'axios'
 
 const baseUrlProducts = 'https://api-rest-marketplace.onrender.com/api/products'
 
@@ -47,4 +46,4 @@ const deleteProduct = async (token, productId) => {
   return data
 }
 
-export default { getAllProducts, deleteProduct, updateProduct, createProduct  }
+export default { getAllProducts, deleteProduct, updateProduct, createProduct }

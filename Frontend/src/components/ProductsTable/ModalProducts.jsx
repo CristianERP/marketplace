@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import "../Modal/Modal.css"
-import { Field } from '../field';
+import React, { useEffect, useState } from 'react'
+import '../Modal/Modal.css'
+import { Field } from '../field'
 
 const ModalProducts = ({ product, handleClose, handleFunction, isDelete }) => {
-
   const textButtonFunction = isDelete ? 'Eliminar' : 'Actualizar'
 
   const [name, setName] = useState('')
@@ -24,11 +23,11 @@ const ModalProducts = ({ product, handleClose, handleFunction, isDelete }) => {
     event.preventDefault()
     const updatedProduct = {
       id: product.id,
-      name: name,
-      description: description,
-      price: price,
-      stock: stock,
-      userId: userId
+      name,
+      description,
+      price,
+      stock,
+      userId
     }
     setName('')
     setDescription('')
@@ -38,59 +37,58 @@ const ModalProducts = ({ product, handleClose, handleFunction, isDelete }) => {
     handleFunction(updatedProduct)
   }
 
-
-
   return (
-    <div className="modal-container">
-      <div className="modal-content">
+    <div className='modal-container'>
+      <div className='modal-content'>
         {/* Otras propiedades del usuario aquí */}
 
-        {!isDelete && <div className=''>
-          <form onSubmit={handleUpdate} >
-            <Field
-              spanChildren={'Nombre'}
-              inputType={'text'}
-              inputplaceholder={'Nombre'}
-              inputValue={name}
-              inputName={'name'}
-              inputOnChange={({ target }) => setName(target.value)}
-            />
-            <Field
-              spanChildren={'Descripcion'}
-              inputType={'text'}
-              inputplaceholder={'Descripcion del producto'}
-              inputValue={description}
-              inputName={'description'}
-              inputOnChange={({ target }) => setDescription(target.value)}
-            />
-            <Field
-              spanChildren={'Precio'}
-              inputType={'number'}
-              inputplaceholder={'Precio'}
-              inputValue={price}
-              inputName={'price'}
-              inputOnChange={({ target }) => setPrice(target.value)}
-            />
-            <Field
-              spanChildren={'Stock'}
-              inputType={'stock'}
-              inputplaceholder={'Stock'}
-              inputValue={stock}
-              inputName={'stock'}
-              inputOnChange={({ target }) => setStock(target.value)}
-            />
-            <button className='form-button'>{'Actualizar'}</button>
-          </form>
-        </div>}
+        {!isDelete &&
+          <div className=''>
+            <form onSubmit={handleUpdate}>
+              <Field
+                spanChildren='Nombre'
+                inputType='text'
+                inputplaceholder='Nombre'
+                inputValue={name}
+                inputName='name'
+                inputOnChange={({ target }) => setName(target.value)}
+              />
+              <Field
+                spanChildren='Descripcion'
+                inputType='text'
+                inputplaceholder='Descripcion del producto'
+                inputValue={description}
+                inputName='description'
+                inputOnChange={({ target }) => setDescription(target.value)}
+              />
+              <Field
+                spanChildren='Precio'
+                inputType='number'
+                inputplaceholder='Precio'
+                inputValue={price}
+                inputName='price'
+                inputOnChange={({ target }) => setPrice(target.value)}
+              />
+              <Field
+                spanChildren='Stock'
+                inputType='stock'
+                inputplaceholder='Stock'
+                inputValue={stock}
+                inputName='stock'
+                inputOnChange={({ target }) => setStock(target.value)}
+              />
+              <button className='form-button'>Actualizar</button>
+            </form>
+          </div>}
 
         {isDelete && <p>¿Está seguro que desea eliminar el producto {product.name}?</p>}
-        <div className="modal-buttons">
+        <div className='modal-buttons'>
           {isDelete && <button onClick={handleFunction}>{textButtonFunction}</button>}
           <button onClick={handleClose}>Cerrar</button>
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default ModalProducts;
+export default ModalProducts

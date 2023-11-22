@@ -1,10 +1,9 @@
-import { useState } from 'react';
-import { UserIcon, PadLockIcon } from "./icons";
+import { useState } from 'react'
+import { UserIcon, PadLockIcon } from './icons'
 import loginService from '../services/Login'
-import { Field } from './field';
+import { Field } from './field'
 
-export function LoginUser({ handleChangeUser }) {
-
+export function LoginUser ({ handleChangeUser }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
@@ -33,22 +32,22 @@ export function LoginUser({ handleChangeUser }) {
     <form onSubmit={handleLogin}>
       <Field
         spanChildren={<UserIcon />}
-        inputType={'email'}
-        inputplaceholder={'Correo'}
+        inputType='email'
+        inputplaceholder='Correo'
         inputValue={email}
-        inputName={'email'}
+        inputName='email'
         inputOnChange={({ target }) => setEmail(target.value)}
       />
 
       <Field
         spanChildren={<PadLockIcon />}
-        inputType={'password'}
-        inputplaceholder={'Password'}
+        inputType='password'
+        inputplaceholder='Password'
         inputValue={password}
-        inputName={'password'}
+        inputName='password'
         inputOnChange={({ target }) => setPassword(target.value)}
       />
       <button className='form-button'>Ingresar</button>
     </form>
-  );
+  )
 }

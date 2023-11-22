@@ -1,9 +1,8 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
-import userServices from '../../services/User'
-import "./UserTable.css"
-import Modal from '../Modal/Modal';
+import React, { useEffect, useState } from 'react'
 
+import userServices from '../../services/User'
+import './UserTable.css'
+import Modal from '../Modal/Modal'
 
 const UserTable = ({ userLogged, handleUserLogged, handleChangeUser }) => {
   const [users, setUsers] = useState([])
@@ -12,13 +11,12 @@ const UserTable = ({ userLogged, handleUserLogged, handleChangeUser }) => {
 
   useEffect(() => {
     console.log('hola')
-    async function fetchData() {
+    async function fetchData () {
       const data = await userServices.getAllUsers(userLogged.token)
       setUsers(data)
     }
     fetchData()
   }, [])
-
 
   const handleClickUpdate = (user) => {
     setSelectedUserUpdate(user)
@@ -32,13 +30,12 @@ const UserTable = ({ userLogged, handleUserLogged, handleChangeUser }) => {
       console.log('usuario actualizado: ', userUpdate)
       let usersUpdated = [...users]
       usersUpdated = usersUpdated.map((user) => {
-        if( userUpdate.id === userLogged.id && user.id === userUpdate.id){
+        if (userUpdate.id === userLogged.id && user.id === userUpdate.id) {
           handleUserLogged(userUpdate)
           return userUpdate
         } else if (user.id === userUpdate.id) {
           return userUpdate
-        }
-        else {
+        } else {
           return user
         }
       })
@@ -48,42 +45,38 @@ const UserTable = ({ userLogged, handleUserLogged, handleChangeUser }) => {
     }
   }
 
-
-
   const handleClickDelete = (user) => {
     setSelectedUserDelete(user)
   }
   const handleDeleteUser = async () => {
     try {
-      await userServices.deleteUser(userLogged.token, selectedUserDelete.id);
-      const updatedUsers = users.filter(user => user.id !== selectedUserDelete.id);
+      await userServices.deleteUser(userLogged.token, selectedUserDelete.id)
+      const updatedUsers = users.filter(user => user.id !== selectedUserDelete.id)
 
       verifyDeletedUserIsNotRegistered()
 
-      setUsers(updatedUsers);
-      setSelectedUserDelete(null);
+      setUsers(updatedUsers)
+      setSelectedUserDelete(null)
     } catch (error) {
-      console.error('Error al eliminar el usuario:', error);
+      console.error('Error al eliminar el usuario:', error)
     }
   }
-  
+
   const verifyDeletedUserIsNotRegistered = () => {
     const userDeleted = users.find(user => user.id === selectedUserDelete.id)
-      if (userDeleted.id === userLogged.id) {
-        handleChangeUser()
-      }
+    if (userDeleted.id === userLogged.id) {
+      handleChangeUser()
+    }
   }
 
-
-
   const handleCloseModal = () => {
-    setSelectedUserUpdate(null);
-    setSelectedUserDelete(null);
+    setSelectedUserUpdate(null)
+    setSelectedUserDelete(null)
   }
 
   return (
-    <div className="user-table-container">
-      <table className="user-table">
+    <div className='user-table-container'>
+      <table className='user-table'>
         <thead>
           <tr>
             <th>ID</th>
@@ -120,11 +113,11 @@ const UserTable = ({ userLogged, handleUserLogged, handleChangeUser }) => {
           user={selectedUserDelete ?? selectedUserUpdate}
           handleClose={handleCloseModal}
           handleFunction={selectedUserDelete ? handleDeleteUser : handleUpdateUser}
-          isDelete={selectedUserDelete ? true : false}
+          isDelete={!!selectedUserDelete}
         />
       )}
     </div>
   )
 }
 
-export default UserTable;
+export default UserTable

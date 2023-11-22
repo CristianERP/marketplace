@@ -47,6 +47,4 @@ const deleteUser = async (token, userId) => {
   return data
 }
 
-
-
-export default { getAllUsers, getUser, deleteUser,  updateUser }
+export default { getAllUsers, getUser, deleteUser, updateUser }

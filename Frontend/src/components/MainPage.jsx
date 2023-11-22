@@ -1,13 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import './Form.css'
 import AdminNav from './Nav/AdminNav'
-import Nav from './Nav/Nav'
 import UserTable from './UserTable/UserTable'
 import ProductsTable from './ProductsTable/ProductsTable'
 
-
 export const MainPage = ({ handleChangeUser, user }) => {
-
   const [userLogged, setUserLogged] = useState(user)
   const [showUserTable, setShowUserTable] = useState(true)
   const [showProductsTable, setShowProductsTable] = useState(false)
@@ -16,7 +13,6 @@ export const MainPage = ({ handleChangeUser, user }) => {
     const updatedUser = { ...user }
     updatedUser.name = dataUpdateUser.name
     updatedUser.username = dataUpdateUser.username
-    // console.log('actualizando valores ',updatedUser)
     setUserLogged(updatedUser)
   }
 
@@ -34,12 +30,14 @@ export const MainPage = ({ handleChangeUser, user }) => {
         handleChangeUser={handleChangeUser}
         user={userLogged}
         handleShowUserTable={handleShowUserTable}
-        handleShowProductsTable={handleShowProductsTable} />
+        handleShowProductsTable={handleShowProductsTable}
+      />
       {showUserTable &&
         <UserTable
           userLogged={userLogged}
           handleUserLogged={handleUserLogged}
-          handleChangeUser={handleChangeUser} />}
+          handleChangeUser={handleChangeUser}
+        />}
       {showProductsTable && <ProductsTable user={userLogged} />}
     </section>
   )

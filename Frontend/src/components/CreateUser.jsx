@@ -3,9 +3,7 @@ import { Field } from './field'
 import loginService from '../services/Login'
 import { useState } from 'react'
 
-
 export const CreateUser = ({ handleShowCreateAccount }) => {
-
   const [name, setName] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -15,12 +13,10 @@ export const CreateUser = ({ handleShowCreateAccount }) => {
   const [errorMessage, setErrorMessage] = useState(null)
 
   const handleCreateUser = async (event) => {
-
     event.preventDefault()
     console.log('esta creando usuario')
 
     try {
-
       console.log('crear usuario')
       const newUser = await loginService.createUser({
         name,
@@ -36,60 +32,57 @@ export const CreateUser = ({ handleShowCreateAccount }) => {
       setPassword('')
       setPhoneNumber('')
       setEmail('')
-
     } catch (error) {
-
       setErrorMessage('error')
       console.log('error ', errorMessage)
       setTimeout(() => {
         setErrorMessage(null)
-      }, 5000);
-      
+      }, 5000)
     }
   }
 
   return (
 
     <div className='square'>
-      <form onSubmit={handleCreateUser} >
+      <form onSubmit={handleCreateUser}>
         <Field
-          spanChildren={'Nombre'}
-          inputType={'text'}
-          inputplaceholder={'Nombre Completo'}
+          spanChildren='Nombre'
+          inputType='text'
+          inputplaceholder='Nombre Completo'
           inputValue={name}
-          inputName={'name'}
+          inputName='name'
           inputOnChange={({ target }) => setName(target.value)}
         />
         <Field
-          spanChildren={'Nombre de usuario'}
-          inputType={'text'}
-          inputplaceholder={'Nombre de usuario'}
+          spanChildren='Nombre de usuario'
+          inputType='text'
+          inputplaceholder='Nombre de usuario'
           inputValue={username}
-          inputName={'username'}
+          inputName='username'
           inputOnChange={({ target }) => setUsername(target.value)}
         />
         <Field
-          spanChildren={'Contraseña'}
-          inputType={'password'}
-          inputplaceholder={'Contraseña'}
+          spanChildren='Contraseña'
+          inputType='password'
+          inputplaceholder='Contraseña'
           inputValue={password}
-          inputName={'password'}
+          inputName='password'
           inputOnChange={({ target }) => setPassword(target.value)}
         />
         <Field
-          spanChildren={'Teléfono'}
-          inputType={'tel'}
-          inputplaceholder={'Teléfono'}
+          spanChildren='Teléfono'
+          inputType='tel'
+          inputplaceholder='Teléfono'
           inputValue={phoneNumber}
-          inputName={'phoneNumber'}
+          inputName='phoneNumber'
           inputOnChange={({ target }) => setPhoneNumber(target.value)}
         />
         <Field
-          spanChildren={'Email'}
-          inputType={'email'}
-          inputplaceholder={'Email'}
+          spanChildren='Email'
+          inputType='email'
+          inputplaceholder='Email'
           inputValue={email}
-          inputName={'email'}
+          inputName='email'
           inputOnChange={({ target }) => setEmail(target.value)}
         />
         <button className='form-button'>Crear cuenta</button>

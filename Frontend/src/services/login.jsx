@@ -14,4 +14,3 @@ const createUser = async (newUser) => {
 }
 
 export default { login, createUser }
-  
