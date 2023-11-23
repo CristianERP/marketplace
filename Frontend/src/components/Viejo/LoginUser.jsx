@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { UserIcon, PadLockIcon } from './icons'
-import loginService from '../services/Login'
-import { Field } from './field'
+import loginService from '../../services/Login'
+import { Field } from './Field'
 
 export function LoginUser ({ handleChangeUser }) {
   const [email, setEmail] = useState('')

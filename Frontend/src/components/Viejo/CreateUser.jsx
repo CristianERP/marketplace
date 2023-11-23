@@ -1,6 +1,6 @@
 import './Form.css'
-import { Field } from './field'
-import loginService from '../services/Login'
+import { Field } from './Field'
+import loginService from '../../services/Login'
 import { useState } from 'react'
 
 export const CreateUser = ({ handleShowCreateAccount }) => {

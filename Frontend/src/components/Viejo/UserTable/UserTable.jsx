@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import userServices from '../../services/User'
+import userServices from '../../../services/User'
 import './UserTable.css'
 import Modal from '../Modal/Modal'
 

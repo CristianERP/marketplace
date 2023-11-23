@@ -1,8 +1,8 @@
-import { Field } from '../field'
+import { Field } from '../Field'
 import '../Form.css'
 import '../Modal/Modal.css'
 import { useState } from 'react'
-import productServices from '../../services/Product'
+import productServices from '../../../services/Product'
 
 const ModalCreateProducts = ({ handleClose, user }) => {
   const [name, setName] = useState('')

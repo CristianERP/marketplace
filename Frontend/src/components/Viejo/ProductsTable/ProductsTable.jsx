@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import productsServices from '../../services/Product'
+import productsServices from '../../../services/Product'
 import ModalProducts from './ModalProducts'
 // import userServices from '../../services/User'
 import './ProductsTable.css'

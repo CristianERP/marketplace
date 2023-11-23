@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import '../Modal/Modal.css'
-import { Field } from '../field'
+import { Field } from '../Field'
 
 const ModalProducts = ({ product, handleClose, handleFunction, isDelete }) => {
   const textButtonFunction = isDelete ? 'Eliminar' : 'Actualizar'
