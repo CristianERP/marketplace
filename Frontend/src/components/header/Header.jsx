@@ -1,5 +1,5 @@
 import './header.css'
-import { SearchIcon, HamburguerIcon, ShoppingCart, UserIcon, XIcon, HomeIcon } from '../icons'
+import { SearchIcon, HamburguerIcon, ShoppingCart, UserIcon, XIcon, HomeIcon, BellIcon, ClipBoardListIcon, ShoppingBagIcon, SalesIcon } from '../icons'
 import { useState } from 'react'
 
 const Header = () => {
@@ -49,16 +49,24 @@ const Header = () => {
               <p>Inicio</p>
             </li>
             <li className='submenu-option-card'>
-              <span>Imagen</span>
-              <p>Texto</p>
+              <span><BellIcon /></span>
+              <p>Notificaciones</p>
             </li>
             <li className='submenu-option-card'>
-              <span>Imagen</span>
-              <p>Texto</p>
+              <span><ShoppingBagIcon /></span>
+              <p>Mis compras</p>
             </li>
             <li className='submenu-option-card'>
-              <span>Imagen</span>
-              <p>Texto</p>
+              <span><SalesIcon /></span>
+              <p>Mis ventas</p>
+            </li>
+            <li className='submenu-option-card'>
+              <span><ClipBoardListIcon /></span>
+              <p>Mis productos</p>
+            </li>
+            <li className='submenu-option-card'>
+              <span><UserIcon /></span>
+              <p>Mis cuenta</p>
             </li>
           </ul>
         </div>}

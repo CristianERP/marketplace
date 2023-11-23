@@ -117,6 +117,16 @@
   display: flex;
   justify-content: start;
   padding: 12px 20px 12px 26px;
+  cursor: pointer;
+}
+
+.submenu-option-card:hover {
+  background-color: #f7f7f7;
+  color: #006837;
+}
+
+.submenu-option-card:hover svg {
+  stroke: #006837;
 }
 
 .submenu-option-card > span {
