@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.marketplace.apimarket.dto.ProductResponse;
+import com.marketplace.apimarket.model.Category;
 import com.marketplace.apimarket.model.Product;
 import com.marketplace.apimarket.service.ProductService;
 
@@ -42,6 +44,26 @@ public class ProductoController {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 
+  }
+
+  @GetMapping("/category")
+  public ResponseEntity<?> getProductsByCategory(@RequestBody Category category) {
+    try {
+      List<ProductResponse> products = productService.getProductsByCategory(category);
+      return ResponseEntity.ok(products);
+    } catch (EntityNotFoundException e) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+  }
+
+  @GetMapping("/search")
+  public ResponseEntity<?> searchProductsByKeyword(@RequestParam("keyword") String keyword) {
+    try {
+      List<ProductResponse> products = productService.getProductsByKeyword(keyword);
+      return ResponseEntity.ok(products);
+    } catch (EntityNotFoundException e) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
   }
 
   @GetMapping("/user")
