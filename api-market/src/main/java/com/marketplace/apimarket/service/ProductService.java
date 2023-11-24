@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.marketplace.apimarket.dto.ProductResponse;
 import com.marketplace.apimarket.dto.UserResponse;
+import com.marketplace.apimarket.model.Category;
 import com.marketplace.apimarket.model.Product;
 import com.marketplace.apimarket.model.User;
 import com.marketplace.apimarket.repository.ProductRepository;
@@ -86,6 +87,22 @@ public class ProductService {
       throw new EntityNotFoundException("Producto no encontrado con ID: " + id);
     }
 
+  }
+
+  public List<ProductResponse> getProductsByKeyword(String keyword) {
+    List<Product> products = productRepository.findByKeyword(keyword);
+
+    return products.stream()
+        .map(this::convertToResponse)
+        .collect(Collectors.toList());
+  }
+
+  public List<ProductResponse> getProductsByCategory(Category category) {
+    List<Product> products = productRepository.findByCategory(category);
+
+    return products.stream()
+        .map(this::convertToResponse)
+        .collect(Collectors.toList());
   }
 
   public List<Product> getProductsUser(Integer idUser) {
