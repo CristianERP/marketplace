@@ -6,16 +6,20 @@ import SubMenuOptions from './submenu/SubMenuOptions'
 
 const Header = ({ handleShowInterface }) => {
   const [showSubMenu, setShowSubMenu] = useState(false)
+  const [showUserOption, setUserOption] = useState(false)
 
   const handleShowMenu = () => {
     setShowSubMenu(!showSubMenu)
   }
+  const handleShowUserOption = () => {
+    setUserOption(!showUserOption)
+  }
   return (
-    <header>
-      <Navbar handleShowMenu={handleShowMenu} showSubMenu={showSubMenu} />
+    <header className='header'>
+      <Navbar handleShowMenu={handleShowMenu} showSubMenu={showSubMenu} showUserOption={showUserOption} handleShowUserOption={handleShowUserOption} handleShowInterface={handleShowInterface} />
       {showSubMenu &&
         <div className='nav-submenu'>
-          <UserCardOptions handleShowInterface={handleShowInterface} handleShowMenu={handleShowMenu} />
+          <UserCardOptions handleShowInterface={handleShowInterface} handleShowMenu={handleShowMenu} handleShowUserOption={handleShowUserOption} />
           <SubMenuOptions handleShowInterface={handleShowInterface} handleShowMenu={handleShowMenu} />
         </div>}
     </header>

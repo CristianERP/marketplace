@@ -1,15 +1,17 @@
 import { UserIcon } from '../../icons'
 import './submenu.css'
 
-export default function UserCardOptions ({ handleShowInterface, handleShowMenu }) {
+export default function UserCardOptions ({ handleShowInterface, handleShowMenu, handleShowUserOption }) {
   const handleShowLogin = () => {
     handleShowInterface('LoginInterface')
     handleShowMenu()
+    handleShowUserOption()
   }
 
   const handleShowCreateAccount = () => {
     handleShowInterface('CreateAccountInterface')
     handleShowMenu()
+    handleShowUserOption()
   }
   return (
     <section className='user-card-options-menu'>
