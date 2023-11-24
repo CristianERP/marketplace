@@ -2,19 +2,20 @@ import './App.css'
 import Header from './components/header/Header'
 import Main from './components/main/Main'
 import Footer from './components/footer/Footer'
-import Sidebar from './components/sidebar/Sidebar'
+// import Sidebar from './components/sidebar/Sidebar'
+import { useState } from 'react'
 
 function App () {
+  const [showInterface, setShowInterface] = useState('')
+  const handleShowInterface = (interfaceOptionName) => {
+    setShowInterface(interfaceOptionName)
+  }
   return (
     <div className='app'>
-      <Header />
-      <Sidebar />
-      <Main />
+      <Header handleShowInterface={handleShowInterface} />
+      <Main showInterface={showInterface} />
+      {/* <Sidebar /> */}
       <Footer />
-      <ol>
-        <li>prueba</li>
-      </ol>
-
     </div>
   )
 }
