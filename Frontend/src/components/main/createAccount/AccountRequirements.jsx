@@ -16,6 +16,7 @@ export default function AccountRequirements ({ addRequirement }) {
   const addPassword = () => {
     addRequirement('contraseña', 'password', 'password')
   }
+
   return (
     <article className='create-account-requirements'>
       <h1>Completa los datos para crear tu cuenta</h1>

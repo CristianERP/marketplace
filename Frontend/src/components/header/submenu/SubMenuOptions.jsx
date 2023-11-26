@@ -1,7 +1,7 @@
 import { BellIcon, ClipBoardListIcon, HomeIcon, SalesIcon, ShoppingBagIcon, UserIcon } from '../../icons'
 import './submenu.css'
 
-export default function SubMenuOptions ({ handleShowInterface, handleShowMenu }) {
+export default function SubMenuOptions ({ handleShowInterface, handleShowMenu, handleChangeUser }) {
   const handleShowHome = () => {
     handleShowInterface('HomeInterface')
     handleShowMenu()
@@ -25,6 +25,10 @@ export default function SubMenuOptions ({ handleShowInterface, handleShowMenu })
   const handleMyAccount = () => {
     handleShowInterface('MyAccountInterface')
     handleShowMenu()
+  }
+  const handleLogOut = () => {
+    handleShowHome()
+    handleChangeUser()
   }
   return (
     <ul className='nav-submenu-options'>
@@ -50,7 +54,11 @@ export default function SubMenuOptions ({ handleShowInterface, handleShowMenu })
       </li>
       <li className='submenu-option-card' onClick={handleMyAccount}>
         <span><UserIcon /></span>
-        <p>Mis cuenta</p>
+        <p>Mi cuenta</p>
+      </li>
+      <li className='submenu-option-card' onClick={handleLogOut}>
+        <span><UserIcon /></span>
+        <p>Cerrar sesión</p>
       </li>
     </ul>
   )

@@ -4,23 +4,37 @@ import Navbar from './navbar/Navbar'
 import UserCardOptions from './submenu/UserCardOptions'
 import SubMenuOptions from './submenu/SubMenuOptions'
 
-const Header = ({ handleShowInterface }) => {
+const Header = ({ handleShowInterface, showUserOption, handleShowUserOption, user, handleChangeUser }) => {
   const [showSubMenu, setShowSubMenu] = useState(false)
-  const [showUserOption, setUserOption] = useState(false)
 
   const handleShowMenu = () => {
     setShowSubMenu(!showSubMenu)
   }
-  const handleShowUserOption = () => {
-    setUserOption(!showUserOption)
-  }
+
   return (
     <header className='header'>
-      <Navbar handleShowMenu={handleShowMenu} showSubMenu={showSubMenu} showUserOption={showUserOption} handleShowUserOption={handleShowUserOption} handleShowInterface={handleShowInterface} />
+      <Navbar
+        handleShowMenu={handleShowMenu}
+        showSubMenu={showSubMenu}
+        showUserOption={showUserOption}
+        handleShowUserOption={handleShowUserOption}
+        handleShowInterface={handleShowInterface}
+      />
+
       {showSubMenu &&
         <div className='nav-submenu'>
-          <UserCardOptions handleShowInterface={handleShowInterface} handleShowMenu={handleShowMenu} handleShowUserOption={handleShowUserOption} />
-          <SubMenuOptions handleShowInterface={handleShowInterface} handleShowMenu={handleShowMenu} />
+          {!user &&
+            <UserCardOptions
+              handleShowInterface={handleShowInterface}
+              handleShowMenu={handleShowMenu}
+              handleShowUserOption={handleShowUserOption}
+            />}
+          {user &&
+            <SubMenuOptions
+              handleShowInterface={handleShowInterface}
+              handleShowMenu={handleShowMenu}
+              handleChangeUser={handleChangeUser}
+            />}
         </div>}
     </header>
   )

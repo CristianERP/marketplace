@@ -8,13 +8,19 @@ import Sales from './sales/Sales'
 import Products from './products/Products'
 import Account from './account/Account'
 
-const Main = ({ showInterface }) => {
+const Main = ({ showInterface, handleShowInterface, handleShowUserOption, user, handleChangeUser }) => {
   return (
     <main>
-      {(showInterface === 'LoginInterface') &&
-        <Login />}
+      {((showInterface === 'LoginInterface') && !user) &&
+        <Login
+          handleShowUserOption={handleShowUserOption}
+          handleChangeUser={handleChangeUser}
+        />}
       {(showInterface === 'CreateAccountInterface') &&
-        <CreateAccount />}
+        <CreateAccount
+          handleShowInterface={handleShowInterface}
+          handleShowUserOption={handleShowUserOption}
+        />}
       {(showInterface === 'HomeInterface') &&
         <Home />}
       {(showInterface === 'NotificationInterface') &&

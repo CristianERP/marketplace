@@ -2,38 +2,16 @@ import { useEffect, useState } from 'react'
 import './createAccount.css'
 import MessageCreateAccount from './MessageCreateAccount'
 import AccountRequirements from './AccountRequirements'
-export default function CreateAccount () {
+import { XIcon } from '../../icons'
+import loginService from './../../../services/login'
+
+export default function CreateAccount ({ handleShowInterface, handleShowUserOption }) {
   const [showCreateAccount, setShowCreateAccount] = useState(false)
-  const handleShowCreateAccount = () => {
-    setShowCreateAccount(!showCreateAccount)
-  }
 
   const [showModalAssignData, setShowModalAssignData] = useState()
   const [requirementType, setShowRequirementType] = useState('')
   const [requirementValue, setRequirementValue] = useState('')
   const [requirementName, setRequirementName] = useState('')
-  const addRequirement = (text, type, name) => {
-    setShowModalAssignData(text)
-    setShowRequirementType(type)
-    setRequirementName(name)
-  }
-
-  useEffect(() => {
-    console.log(requirementValue)
-    if (requirementName === 'email') {
-      setEmail(requirementValue)
-    } else if (requirementName === 'name') {
-      setName(requirementValue)
-    } else if (requirementName === 'username') {
-      setUsername(requirementValue)
-    } else if (requirementName === 'phoneNumber') {
-      setPhoneNumber(requirementValue)
-    } else if (requirementName === 'password') {
-      setPassword(requirementValue)
-    } else {
-      console.log('nada')
-    }
-  }, [requirementValue])
 
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
@@ -41,43 +19,122 @@ export default function CreateAccount () {
   const [phoneNumber, setPhoneNumber] = useState('')
   const [password, setPassword] = useState('')
 
-  const handleCreateUser = (event) => {
+  const [showRequirementValue, setShowRequirementValue] = useState()
+
+  const [fadeBackground, setFadeBackground] = useState(true)
+  const fadeBackgroundTag = fadeBackground ? 'fade-background' : ''
+
+  useEffect(() => {
+    setFadeBackground(!fadeBackground)
+    if (requirementName === 'email') {
+      setShowRequirementValue(email)
+    } else if (requirementName === 'name') {
+      setShowRequirementValue(name)
+    } else if (requirementName === 'username') {
+      setShowRequirementValue(username)
+    } else if (requirementName === 'phoneNumber') {
+      setShowRequirementValue(phoneNumber)
+    } else if (requirementName === 'password') {
+      // setShowRequirementValue(password)
+    } else {
+      setShowRequirementValue()
+    }
+  }, [showModalAssignData])
+
+  const handleShowCreateAccount = () => {
+    setShowCreateAccount(!showCreateAccount)
+  }
+
+  const addRequirement = (text, type, name) => {
+    setShowModalAssignData(text)
+    setShowRequirementType(type)
+    setRequirementName(name)
+  }
+
+  const handleAssignData = (event) => {
     event.preventDefault()
+    if (requirementValue) {
+      if (requirementName === 'email') {
+        setEmail(requirementValue)
+      } else if (requirementName === 'name') {
+        setName(requirementValue)
+      } else if (requirementName === 'username') {
+        setUsername(requirementValue)
+      } else if (requirementName === 'phoneNumber') {
+        setPhoneNumber(requirementValue)
+      } else if (requirementName === 'password') {
+        setPassword(requirementValue)
+      } else {
+        console.log('nada')
+      }
+      setShowModalAssignData()
+      setRequirementName('')
+      setRequirementValue('')
+      setShowRequirementType('')
+    } else {
+      console.log('No puedes dejar el campo vacio')
+    }
+  }
+
+  const handleCloseModal = () => {
     setShowModalAssignData()
     setRequirementName('')
     setRequirementValue('')
     setShowRequirementType('')
-    console.log(showModalAssignData)
-    console.log('email: ', email)
-    console.log('name: ', name)
-    console.log('username: ', username)
-    console.log('phoneNumber: ', phoneNumber)
-    console.log('password: ', password)
+  }
+
+  const handleCreateUser = async () => {
+    console.log('inicio de crear usuario')
+    try {
+      if (email && name && username && phoneNumber && password) {
+        const newUser = await loginService.createUser({
+          email,
+          name,
+          username,
+          phoneNumber,
+          password
+        })
+        console.log(newUser)
+        handleShowUserOption()
+        handleShowInterface('HomeInterface')
+      } else {
+        console.log('faltan datos para crear la cuenta')
+      }
+    } catch (error) {
+      console.log('Hubo un error: ', error)
+    }
   }
 
   return (
-    <section className='create-account'>
-      {!showCreateAccount &&
-        <MessageCreateAccount />}
-      {!showCreateAccount &&
-        <button className='create-account--btn' onClick={handleShowCreateAccount}>Crear cuenta</button>}
-      {showCreateAccount &&
-        <AccountRequirements addRequirement={addRequirement} />}
-      {showCreateAccount &&
-        <button className='create-account--btn'>Crear Cuenta</button>}
+    <section>
+      <div className={`create-account ${fadeBackgroundTag}`}>
+        {!showCreateAccount &&
+          <MessageCreateAccount />}
+        {!showCreateAccount &&
+          <button className='create-account--btn' onClick={handleShowCreateAccount}>Crear cuenta</button>}
+        {showCreateAccount &&
+          <AccountRequirements addRequirement={addRequirement} fadeBackground={fadeBackground} />}
+        {showCreateAccount &&
+          <button className='create-account--btn' onClick={handleCreateUser}>Crear Cuenta</button>}
+      </div>
       {showModalAssignData &&
-        <form className='modal-assign-data' onSubmit={handleCreateUser}>
-          <label>
-            <h1>Ingresa tu {showModalAssignData}</h1>
-            <input
-              type={requirementType}
-              value={requirementValue}
-              name={requirementName}
-              onChange={({ target }) => setRequirementValue(target.value)}
-            />
-          </label>
-          <button className='requirement-modal--btn'>Continuar</button>
-        </form>}
+        <div className='modal-container'>
+          <span className='close-modal' onClick={handleCloseModal}><XIcon /></span>
+          <form className='modal-assign-data' onSubmit={handleAssignData}>
+            <label>
+              <h1>Ingresa tu {showModalAssignData}</h1>
+              {showRequirementValue &&
+                <p>{showModalAssignData} ingresado: {showRequirementValue}</p>}
+              <input
+                type={requirementType}
+                value={requirementValue}
+                name={requirementName}
+                onChange={({ target }) => setRequirementValue(target.value)}
+              />
+            </label>
+            <button className='requirement-modal--btn'>Continuar</button>
+          </form>
+        </div>}
     </section>
   )
 }
