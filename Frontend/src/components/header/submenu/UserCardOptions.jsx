@@ -1,4 +1,4 @@
-import { UserIcon } from '../../icons'
+import { UserCircleIcon } from '../../icons'
 import './submenu.css'
 
 export default function UserCardOptions ({ handleShowInterface, handleShowMenu, handleShowUserOption }) {
@@ -16,7 +16,7 @@ export default function UserCardOptions ({ handleShowInterface, handleShowMenu, 
   return (
     <section className='user-card-options-menu'>
       <div className='user-card-options-menu-message'>
-        <span><UserIcon /></span>
+        <span><UserCircleIcon /></span>
         <div>
           <h4>Bienvenido</h4>
           <p>Ingresa a tu cuenta para ver tus compras</p>

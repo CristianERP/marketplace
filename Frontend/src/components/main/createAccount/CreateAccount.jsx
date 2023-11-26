@@ -1,46 +1,83 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './createAccount.css'
+import MessageCreateAccount from './MessageCreateAccount'
+import AccountRequirements from './AccountRequirements'
 export default function CreateAccount () {
   const [showCreateAccount, setShowCreateAccount] = useState(false)
-  // const [requirementSelected, setRequirementSelected] = useState()
   const handleShowCreateAccount = () => {
     setShowCreateAccount(!showCreateAccount)
   }
+
+  const [showModalAssignData, setShowModalAssignData] = useState()
+  const [requirementType, setShowRequirementType] = useState('')
+  const [requirementValue, setRequirementValue] = useState('')
+  const [requirementName, setRequirementName] = useState('')
+  const addRequirement = (text, type, name) => {
+    setShowModalAssignData(text)
+    setShowRequirementType(type)
+    setRequirementName(name)
+  }
+
+  useEffect(() => {
+    console.log(requirementValue)
+    if (requirementName === 'email') {
+      setEmail(requirementValue)
+    } else if (requirementName === 'name') {
+      setName(requirementValue)
+    } else if (requirementName === 'username') {
+      setUsername(requirementValue)
+    } else if (requirementName === 'phoneNumber') {
+      setPhoneNumber(requirementValue)
+    } else if (requirementName === 'password') {
+      setPassword(requirementValue)
+    } else {
+      console.log('nada')
+    }
+  }, [requirementValue])
+
+  const [email, setEmail] = useState('')
+  const [name, setName] = useState('')
+  const [username, setUsername] = useState('')
+  const [phoneNumber, setPhoneNumber] = useState('')
+  const [password, setPassword] = useState('')
+
+  const handleCreateUser = (event) => {
+    event.preventDefault()
+    setShowModalAssignData()
+    setRequirementName('')
+    setRequirementValue('')
+    setShowRequirementType('')
+    console.log(showModalAssignData)
+    console.log('email: ', email)
+    console.log('name: ', name)
+    console.log('username: ', username)
+    console.log('phoneNumber: ', phoneNumber)
+    console.log('password: ', password)
+  }
+
   return (
     <section className='create-account'>
       {!showCreateAccount &&
-        <article className='message-container'>
-          <div className='message-container-image'>
-            <img src='/checklist.svg' alt='Informe con los datos de una persona' />
-          </div>
-          <h1 className='message-container--title'>Para crear tu ceunta te pediremos algunos datos</h1>
-          <span className='message-container--caption'>Solo te tomará unos minutos</span>
-        </article>}
+        <MessageCreateAccount />}
       {!showCreateAccount &&
         <button className='create-account--btn' onClick={handleShowCreateAccount}>Crear cuenta</button>}
-
       {showCreateAccount &&
-        <article className='create-account-requirements'>
-          <h1>Completa los datos para crear tu cuenta</h1>
-          <ul className='create-account-requirements--container'>
-            <li className='requirement-card card-selected'>
-              <span className='requirement-card--image-container'>Image</span>
-              <div>
-                <span className='requirement-card--title'>Agrega tu e-mail</span>
-                <p className='requirement-card--text'>Recibirás información en tu cuenta</p>
-              </div>
-              <button className='requirement-card--btn'>Agregar</button>
-            </li>
-            <li className='requirement-card card-selected'>
-              <span className='requirement-card--image-container'>Image</span>
-              <div>
-                <span className='requirement-card--title'>Agrega tu e-mail</span>
-                <p className='requirement-card--text'>Recibirás información en tu cuenta</p>
-              </div>
-              <button className='requirement-card--btn'>Agregar</button>
-            </li>
-          </ul>
-        </article>}
+        <AccountRequirements addRequirement={addRequirement} />}
+      {showCreateAccount &&
+        <button className='create-account--btn'>Crear Cuenta</button>}
+      {showModalAssignData &&
+        <form className='modal-assign-data' onSubmit={handleCreateUser}>
+          <label>
+            <h1>Ingresa tu {showModalAssignData}</h1>
+            <input
+              type={requirementType}
+              value={requirementValue}
+              name={requirementName}
+              onChange={({ target }) => setRequirementValue(target.value)}
+            />
+          </label>
+          <button className='requirement-modal--btn'>Continuar</button>
+        </form>}
     </section>
   )
 }
