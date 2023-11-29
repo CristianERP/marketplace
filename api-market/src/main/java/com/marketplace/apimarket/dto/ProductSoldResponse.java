@@ -2,12 +2,10 @@ package com.marketplace.apimarket.dto;
 
 import com.marketplace.apimarket.model.Category;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Lob;
 import lombok.Data;
 
 @Data
-public class ProductResponse {
+public class ProductSoldResponse {
   private Integer id;
   private String name;
   private String description;
@@ -15,8 +13,6 @@ public class ProductResponse {
   private Integer stock;
   private Category category;
   private UserResponse user;
-  @Lob
-  @Column(length = 1048576)
-  private byte[] imageData;
-
+  private int amount;
+  private double total;
 }

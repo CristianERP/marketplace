@@ -1,17 +1,20 @@
 package com.marketplace.apimarket.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.marketplace.apimarket.dto.ProductResponse;
 import com.marketplace.apimarket.dto.UserResponse;
 import com.marketplace.apimarket.model.Category;
 import com.marketplace.apimarket.model.Product;
 import com.marketplace.apimarket.model.User;
+import com.marketplace.apimarket.repository.CategoryRepository;
 import com.marketplace.apimarket.repository.ProductRepository;
 import com.marketplace.apimarket.repository.UserRepository;
 
@@ -19,6 +22,10 @@ import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ProductService {
+
+  @Autowired
+  private CategoryRepository categoryRepository;
+
   @Autowired
   private ProductRepository productRepository;
 
@@ -42,6 +49,7 @@ public class ProductService {
     response.setDescription(product.getDescription());
     response.setPrice(product.getPrice());
     response.setStock(product.getStock());
+    response.setImageData(product.getImageData());
 
     UserResponse userResponse = new UserResponse();
     Optional<User> userOptional = userRepository.findById(product.getUserId());
@@ -81,6 +89,7 @@ public class ProductService {
       response.setDescription(product.getDescription());
       response.setPrice(product.getPrice());
       response.setStock(product.getStock());
+      response.setImageData(product.getImageData());
       response.setUser(userResponse);
       return response;
     } else {
@@ -117,16 +126,40 @@ public class ProductService {
     return products;
   }
 
-  public Product createProduct(Product product) {
+  // public List<Object[]> getProductsSold(Integer userId) {
+  // List<Object[]> response = productRepository.findSoldProductsByUserId(userId);
+
+  // for (Object[] objects : response) {
+  // Product product = (Product) objects[0];
+  // DetailOrder detailOrder = (DetailOrder) objects[1];
+
+  // System.out.println(detailOrder);
+  // System.out.println(product);
+  // System.out.println(detailOrder);
+  // }
+
+  // return productRepository.findSoldProductsByUserId(userId);
+  // }
+
+  public Product createProduct(String name, String description, double price, int stock, int idCategory, int idUser,
+      MultipartFile imageFile) throws IOException {
     Product newProduct = new Product();
 
-    newProduct.setName(product.getName());
-    newProduct.setDescription(product.getDescription());
-    newProduct.setPrice(product.getPrice());
-    newProduct.setStock(product.getStock());
-    newProduct.setCategory(product.getCategory());
+    Category category = new Category();
 
-    return productRepository.save(product);
+    category = categoryRepository.findById(idCategory).orElse(null);
+
+    byte[] fileData = imageFile.getBytes();
+
+    newProduct.setName(name);
+    newProduct.setDescription(description);
+    newProduct.setPrice(price);
+    newProduct.setStock(stock);
+    newProduct.setCategory(category);
+    newProduct.setUserId(idUser);
+    newProduct.setImageData(fileData);
+
+    return productRepository.save(newProduct);
   }
 
   public Product updateProduct(Integer id, Product newProduct) {
