@@ -2,7 +2,7 @@ import './App2.css'
 import { LoginUser } from './components/LoginUser'
 import { useState, useEffect } from 'react'
 import { CreateUser } from './components/CreateUser'
-import { WaveImageDown, WaveImageUp } from './components/icons'
+import { WaveImageDown, WaveImageUp } from '../icons'
 import { MainPage } from './components/MainPage'
 
 function App () {
@@ -11,7 +11,8 @@ function App () {
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user')
+    // const storedUser = localStorage.getItem('user')
+    const storedUser = 'user'
 
     if (storedUser) {
       setUser(JSON.parse(storedUser))
@@ -27,12 +28,12 @@ function App () {
   const handleChangeUser = (newUser) => {
     if (user == null) {
       setUser(newUser)
-      localStorage.setItem('user', JSON.stringify(newUser))
+      // localStorage.setItem('user', JSON.stringify(newUser))
       console.log('Inicio de sesión exitoso:', newUser)
     } else {
       setUser(null)
       setShowLogin(true)
-      localStorage.removeItem('user')
+      // localStorage.removeItem('user')
       console.log('Cierre de sesión')
     }
   }
