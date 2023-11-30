@@ -8,21 +8,20 @@ import Sales from './sales/Sales'
 import Products from './products/Products'
 import Account from './account/Account'
 
-const Main = ({ showInterface, handleShowInterface, handleShowUserOption, user, handleChangeUser }) => {
+const Main = ({ showInterface, handleShowInterface, user, handleChangeUser }) => {
   return (
     <main>
-      {((showInterface === 'LoginInterface') && !user) &&
+      {((showInterface === 'LoginInterface' && !user) && !user) &&
         <Login
-          handleShowUserOption={handleShowUserOption}
           handleChangeUser={handleChangeUser}
+          handleShowInterface={handleShowInterface}
         />}
       {(showInterface === 'CreateAccountInterface') &&
         <CreateAccount
           handleShowInterface={handleShowInterface}
-          handleShowUserOption={handleShowUserOption}
         />}
-      {(showInterface === 'HomeInterface') &&
-        <Home />}
+      {(showInterface === 'HomeInterface' && user) &&
+        <Home userLogged={user} />}
       {(showInterface === 'NotificationInterface') &&
         <Notifications />}
       {(showInterface === 'MyShoppingInterface') &&
@@ -30,7 +29,7 @@ const Main = ({ showInterface, handleShowInterface, handleShowUserOption, user, 
       {(showInterface === 'MySalesInterface') &&
         <Sales />}
       {(showInterface === 'MyProductsInterface') &&
-        <Products />}
+        <Products userLogged={user} />}
       {(showInterface === 'MyAccountInterface') &&
         <Account />}
     </main>

@@ -27,8 +27,9 @@ export default function SubMenuOptions ({ handleShowInterface, handleShowMenu, h
     handleShowMenu()
   }
   const handleLogOut = () => {
-    handleShowHome()
+    handleShowInterface('LoginInterface')
     handleChangeUser()
+    handleShowMenu()
   }
   return (
     <ul className='nav-submenu-options'>

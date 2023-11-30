@@ -1,10 +1,10 @@
 import './header.css'
 import { useState } from 'react'
 import Navbar from './navbar/Navbar'
-import UserCardOptions from './submenu/UserCardOptions'
+// import UserCardOptions from './submenu/UserCardOptions'
 import SubMenuOptions from './submenu/SubMenuOptions'
 
-const Header = ({ handleShowInterface, showUserOption, handleShowUserOption, user, handleChangeUser }) => {
+const Header = ({ handleShowInterface, user, handleChangeUser }) => {
   const [showSubMenu, setShowSubMenu] = useState(false)
 
   const handleShowMenu = () => {
@@ -13,22 +13,20 @@ const Header = ({ handleShowInterface, showUserOption, handleShowUserOption, use
 
   return (
     <header className='header'>
-      <Navbar
-        handleShowMenu={handleShowMenu}
-        showSubMenu={showSubMenu}
-        showUserOption={showUserOption}
-        handleShowUserOption={handleShowUserOption}
-        handleShowInterface={handleShowInterface}
-      />
+      {user &&
+        <Navbar
+          handleShowMenu={handleShowMenu}
+          showSubMenu={showSubMenu}
+          handleShowInterface={handleShowInterface}
+        />}
 
       {showSubMenu &&
         <div className='nav-submenu'>
-          {!user &&
+          {/* {!user &&
             <UserCardOptions
               handleShowInterface={handleShowInterface}
               handleShowMenu={handleShowMenu}
-              handleShowUserOption={handleShowUserOption}
-            />}
+            />} */}
           {user &&
             <SubMenuOptions
               handleShowInterface={handleShowInterface}

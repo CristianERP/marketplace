@@ -5,7 +5,7 @@ import AccountRequirements from './AccountRequirements'
 import { XIcon } from '../../icons'
 import loginService from './../../../services/login'
 
-export default function CreateAccount ({ handleShowInterface, handleShowUserOption }) {
+export default function CreateAccount ({ handleShowInterface }) {
   const [showCreateAccount, setShowCreateAccount] = useState(false)
 
   const [showModalAssignData, setShowModalAssignData] = useState()
@@ -95,7 +95,6 @@ export default function CreateAccount ({ handleShowInterface, handleShowUserOpti
           password
         })
         console.log(newUser)
-        handleShowUserOption()
         handleShowInterface('HomeInterface')
       } else {
         console.log('faltan datos para crear la cuenta')
@@ -103,6 +102,10 @@ export default function CreateAccount ({ handleShowInterface, handleShowUserOpti
     } catch (error) {
       console.log('Hubo un error: ', error)
     }
+  }
+
+  const handleShowLogin = () => {
+    handleShowInterface('LoginInterface')
   }
 
   return (
@@ -116,6 +119,7 @@ export default function CreateAccount ({ handleShowInterface, handleShowUserOpti
           <AccountRequirements addRequirement={addRequirement} fadeBackground={fadeBackground} />}
         {showCreateAccount &&
           <button className='create-account--btn' onClick={handleCreateUser}>Crear Cuenta</button>}
+        <span onClick={handleShowLogin}>Iniciar sesion</span>
       </div>
       {showModalAssignData &&
         <div className='modal-container'>

@@ -7,8 +7,7 @@ import { useEffect, useState } from 'react'
 
 function App () {
   const [user, setUser] = useState(null)
-  const [showInterface, setShowInterface] = useState('HomeInterface')
-  const [showUserOption, setUserOption] = useState(false)
+  const [showInterface, setShowInterface] = useState('LoginInterface')
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user')
@@ -19,10 +18,6 @@ function App () {
 
   const handleShowInterface = (interfaceOptionName) => {
     setShowInterface(interfaceOptionName)
-  }
-
-  const handleShowUserOption = () => {
-    setUserOption(!showUserOption)
   }
 
   const handleChangeUser = (newUser) => {
@@ -41,14 +36,12 @@ function App () {
     <div className='app'>
       <Header
         handleShowInterface={handleShowInterface}
-        showUserOption={showUserOption}
-        handleShowUserOption={handleShowUserOption}
-        user={user} handleChangeUser={handleChangeUser}
+        user={user}
+        handleChangeUser={handleChangeUser}
       />
       <Main
         showInterface={showInterface}
         handleShowInterface={handleShowInterface}
-        handleShowUserOption={handleShowUserOption}
         user={user}
         handleChangeUser={handleChangeUser}
       />

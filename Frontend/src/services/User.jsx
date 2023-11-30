@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-const baseUrlUser = 'https://api-rest-marketplace.onrender.com/api'
-// const baseUrlUser = 'http://localhost:8094/api'
+// const baseUrlUser = 'https://api-rest-marketplace.onrender.com/api'
+const baseUrlUser = 'http://localhost:8080/api'
 
 const getAllUsers = async (token) => {
   const config = {

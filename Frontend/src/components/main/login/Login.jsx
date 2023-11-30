@@ -2,7 +2,7 @@ import { useState } from 'react'
 import loginService from './../../../services/login'
 import './login.css'
 
-export default function Login ({ handleShowUserOption, handleChangeUser }) {
+export default function Login ({ handleChangeUser, handleShowInterface }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -14,13 +14,16 @@ export default function Login ({ handleShowUserOption, handleChangeUser }) {
         email,
         password
       })
-      handleShowUserOption()
       handleChangeUser(user)
       setEmail('')
       setPassword('')
     } catch (error) {
       console.log('Ha ocurrido un error: ', error)
     }
+  }
+
+  const handleShowCreateAccount = () => {
+    handleShowInterface('CreateAccountInterface')
   }
 
   return (
@@ -37,7 +40,7 @@ export default function Login ({ handleShowUserOption, handleChangeUser }) {
         </label>
         <button className='login-form-box'>Iniciar sesión</button>
       </form>
-      <span>Crear cuenta</span>
+      <span onClick={handleShowCreateAccount}>Crear cuenta</span>
     </section>
   )
 }

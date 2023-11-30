@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrlProducts = 'https://api-rest-marketplace.onrender.com/api/products'
+const baseUrlProducts = 'http://localhost:8080/api/products'
 
 const getAllProducts = async (token) => {
   const config = {
