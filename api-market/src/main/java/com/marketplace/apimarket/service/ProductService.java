@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.marketplace.apimarket.dto.ProductResponse;
 import com.marketplace.apimarket.dto.UserResponse;
@@ -49,7 +48,7 @@ public class ProductService {
     response.setDescription(product.getDescription());
     response.setPrice(product.getPrice());
     response.setStock(product.getStock());
-    response.setImageData(product.getImageData());
+    response.setUrlImage(product.getUrlImage());
 
     UserResponse userResponse = new UserResponse();
     Optional<User> userOptional = userRepository.findById(product.getUserId());
@@ -89,7 +88,7 @@ public class ProductService {
       response.setDescription(product.getDescription());
       response.setPrice(product.getPrice());
       response.setStock(product.getStock());
-      response.setImageData(product.getImageData());
+      response.setUrlImage(product.getUrlImage());
       response.setUser(userResponse);
       return response;
     } else {
@@ -142,14 +141,12 @@ public class ProductService {
   // }
 
   public Product createProduct(String name, String description, double price, int stock, int idCategory, int idUser,
-      MultipartFile imageFile) throws IOException {
+      String urlImage) throws IOException {
     Product newProduct = new Product();
 
     Category category = new Category();
 
     category = categoryRepository.findById(idCategory).orElse(null);
-
-    byte[] fileData = imageFile.getBytes();
 
     newProduct.setName(name);
     newProduct.setDescription(description);
@@ -157,7 +154,7 @@ public class ProductService {
     newProduct.setStock(stock);
     newProduct.setCategory(category);
     newProduct.setUserId(idUser);
-    newProduct.setImageData(fileData);
+    newProduct.setUrlImage(urlImage);
 
     return productRepository.save(newProduct);
   }

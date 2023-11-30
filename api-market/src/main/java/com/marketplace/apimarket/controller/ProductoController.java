@@ -22,9 +22,8 @@ import org.springframework.web.multipart.MultipartFile;
 // import com.marketplace.apimarket.dto.ProductRequest;
 import com.marketplace.apimarket.dto.ProductResponse;
 import com.marketplace.apimarket.model.Category;
-import com.marketplace.apimarket.model.File;
 import com.marketplace.apimarket.model.Product;
-import com.marketplace.apimarket.repository.FileRepository;
+import com.marketplace.apimarket.service.FirebaseService;
 import com.marketplace.apimarket.service.ProductService;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -36,7 +35,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class ProductoController {
 
   @Autowired
-  private FileRepository fileRepository;
+  private FirebaseService firebaseService;
 
   @Autowired
   private ProductService productService;
@@ -89,35 +88,6 @@ public class ProductoController {
 
   }
 
-  // @GetMapping("/user/sold")
-  // public ResponseEntity<?> getProductsUserSold(HttpServletRequest request) {
-  // int id = (int) request.getAttribute("id");
-  // productService.getProductsSold(id);
-  // return ResponseEntity.ok("ok");
-
-  // }
-
-  @PostMapping("/upload")
-  public String uploadFile(@RequestParam("productName") String productName,
-      @RequestParam("file") MultipartFile file) {
-    try {
-      byte[] fileData = file.getBytes();
-
-      // Guardar los datos del archivo en la base de datos
-      File fileEntity = new File();
-      fileEntity.setFileName(file.getOriginalFilename());
-      fileEntity.setImageData(fileData);
-
-      fileRepository.save(fileEntity);
-      // Guardar en la base de datos utilizando JPA/Hibernate
-      // entityManager.persist(fileEntity);
-
-      return "Archivo guardado en la base de datos: " + file.getOriginalFilename();
-    } catch (IOException e) {
-      return "Error al guardar el archivo: " + e.getMessage();
-    }
-  }
-
   @PostMapping
   public ResponseEntity<?> createProduct(
       HttpServletRequest request,
@@ -130,24 +100,14 @@ public class ProductoController {
 
     int idUser = (int) request.getAttribute("id");
     try {
-      productService.createProduct(name, description, price, stock, idCategory, idUser, imageFile);
+      String urlImage = firebaseService.uploadFile(imageFile);
+
+      productService.createProduct(name, description, price, stock, idCategory, idUser, urlImage);
     } catch (IOException e) {
       e.printStackTrace();
     }
     return ResponseEntity.status(HttpStatus.CREATED).body("Producto creado correctamente.");
   }
-
-  // @PostMapping
-  // public ResponseEntity<?> createProduct(HttpServletRequest request, @Valid
-  // @RequestBody Product producto) {
-
-  // int id = (int) request.getAttribute("id");
-  // producto.setUserId(id);
-
-  // productService.createProduct(producto);
-  // return ResponseEntity.status(HttpStatus.CREATED).body("Producto creado
-  // correctamente.");
-  // }
 
   @PutMapping("/{id}")
   public ResponseEntity<?> updateProduct(@PathVariable Integer id, @RequestBody Product newProduct) {
