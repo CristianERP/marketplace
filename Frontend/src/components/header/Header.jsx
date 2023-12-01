@@ -32,6 +32,7 @@ const Header = ({ handleShowInterface, user, handleChangeUser }) => {
               handleShowInterface={handleShowInterface}
               handleShowMenu={handleShowMenu}
               handleChangeUser={handleChangeUser}
+              user={user}
             />}
         </div>}
     </header>

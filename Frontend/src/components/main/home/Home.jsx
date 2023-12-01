@@ -8,6 +8,9 @@ export default function Home ({ userLogged }) {
   const [products, setProducts] = useState()
   const [selectedProduct, setSelectedProduct] = useState()
 
+  const [fadeBackground, setFadeBackground] = useState(false)
+  const fadeBackgroundTag = fadeBackground ? 'fade-background' : ''
+
   useEffect(() => {
     async function fetchData () {
       const data = await productsServices.getAllProducts(userLogged.token)
@@ -25,15 +28,17 @@ export default function Home ({ userLogged }) {
 
   const handleProductClick = (product) => {
     setSelectedProduct(product)
+    setFadeBackground(true)
   }
 
   const closeSelectedProduct = () => {
     setSelectedProduct()
+    setFadeBackground(false)
   }
 
   return (
     <section className='home'>
-      <div className='products-container'>
+      <div className={`products-container ${fadeBackgroundTag}`}>
         {products &&
       products.map((product) => (
         <article className='product-card' key={product.id} onClick={() => handleProductClick(product)}>
@@ -44,12 +49,34 @@ export default function Home ({ userLogged }) {
         </article>
       )
       )}
-        {selectedProduct &&
-          <SelectedProductCard
-            userLogged={userLogged}
-            selectedProduct={selectedProduct}
-            closeSelectedProduct={closeSelectedProduct}
-          />}
+
+        <article className='product-card'>
+          <div className='product-card--image-container'>Imagen</div>
+          <div className='product-card--price'>{price2.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</div>
+          <span className='product-card--name'>Silla Escritorio Esgonomica Oficina de color negro</span>
+          <span className='product-card--seller'>Vendido por</span>
+        </article>
+
+        <article className='product-card'>
+          <div className='product-card--image-container'>Imagen</div>
+          <div className='product-card--price'>{price2.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</div>
+          <span className='product-card--name'>Silla Escritorio Esgonomica Oficina de color negro</span>
+          <span className='product-card--seller'>Vendido por</span>
+        </article>
+
+        <article className='product-card'>
+          <div className='product-card--image-container'>Imagen</div>
+          <div className='product-card--price'>{price2.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</div>
+          <span className='product-card--name'>Silla Escritorio Esgonomica Oficina de color negro</span>
+          <span className='product-card--seller'>Vendido por</span>
+        </article>
+
+        <article className='product-card'>
+          <div className='product-card--image-container'>Imagen</div>
+          <div className='product-card--price'>{price2.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</div>
+          <span className='product-card--name'>Silla Escritorio Esgonomica Oficina de color negro</span>
+          <span className='product-card--seller'>Vendido por</span>
+        </article>
 
         <article className='product-card'>
           <div className='product-card--image-container'>Imagen</div>
@@ -72,6 +99,12 @@ export default function Home ({ userLogged }) {
           <span className='product-card--seller'>Vendido por</span>
         </article>
       </div>
+      {selectedProduct &&
+        <SelectedProductCard
+          userLogged={userLogged}
+          selectedProduct={selectedProduct}
+          closeSelectedProduct={closeSelectedProduct}
+        />}
     </section>
   )
 }

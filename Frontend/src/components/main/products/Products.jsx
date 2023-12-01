@@ -8,32 +8,41 @@ export default function Products ({ userLogged }) {
   const [products, setProducts] = useState()
   const [selectedProduct, setSelectedProduct] = useState()
 
+  const [fadeBackground, setFadeBackground] = useState(false)
+  const fadeBackgroundTag = fadeBackground ? 'fade-background' : ''
+
   useEffect(() => {
     async function fetchData () {
-      const data = await productsServices.getAllProducts(userLogged.token)
-      const myProducts = data.filter((product) => {
-        if (product.user.id === userLogged.id) {
-          return product
-        }
-        return false
-      })
-      console.log(products)
-      setProducts(myProducts)
+      try {
+        const data = await productsServices.getAllProducts(userLogged.token)
+        const myProducts = data.filter((product) => {
+          if (product.user.id === userLogged.id) {
+            return product
+          }
+          return false
+        })
+        console.log(products)
+        setProducts(myProducts)
+      } catch (error) {
+        console.log('Ocurrio un error al traer los productos ' + error)
+      }
     }
     fetchData()
   }, [])
 
   const handleProductClick = (product) => {
     setSelectedProduct(product)
+    setFadeBackground(true)
   }
 
   const closeSelectedProduct = () => {
     setSelectedProduct()
+    setFadeBackground(false)
   }
 
   return (
     <section className='home'>
-      <div className='products-container'>
+      <div className={`products-container ${fadeBackgroundTag}`}>
         {products &&
         products.map((product) => (
           <article className='product-card' key={product.id} onClick={() => handleProductClick(product)}>

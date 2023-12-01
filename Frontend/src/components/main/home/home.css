@@ -11,6 +11,10 @@
   gap: 1px;
 }
 
+.fade-background {
+  display: none;
+}
+
 .product-card {
   display: flex;
   flex-direction: column;

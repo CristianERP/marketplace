@@ -13,6 +13,7 @@ const getAllProducts = async (token) => {
   return data
 }
 
+// TODO: Falta arreglar porque ahora usa un form data
 const createProduct = async (token, newProduct) => {
   const config = {
     credentials: 'same-origin',
@@ -24,26 +25,37 @@ const createProduct = async (token, newProduct) => {
   return request.data
 }
 
-const updateProduct = async (token, productUpdateData) => {
+// const updateProduct = async (token, productUpdateData) => {
+//   const config = {
+//     credentials: 'same-origin',
+//     headers: {
+//       Authorization: `Bearer ${token}`
+//     }
+//   }
+//   const { data } = await axios.put(baseUrlProducts + '/' + productUpdateData.id, productUpdateData, config)
+//   return data
+// }
+
+// const deleteProduct = async (token, productId) => {
+//   const config = {
+//     credentials: 'same-origin',
+//     headers: {
+//       Authorization: `Bearer ${token}`
+//     }
+//   }
+//   const { data } = await axios.delete(baseUrlProducts + '/' + productId, config)
+//   return data
+// }
+
+const getProductsByCategory = async (token, idCategory) => {
   const config = {
     credentials: 'same-origin',
     headers: {
       Authorization: `Bearer ${token}`
     }
   }
-  const { data } = await axios.put(baseUrlProducts + '/' + productUpdateData.id, productUpdateData, config)
+  const { data } = await axios.get(baseUrlProducts + '/category', idCategory, config)
   return data
 }
 
-const deleteProduct = async (token, productId) => {
-  const config = {
-    credentials: 'same-origin',
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  }
-  const { data } = await axios.delete(baseUrlProducts + '/' + productId, config)
-  return data
-}
-
-export default { getAllProducts, deleteProduct, updateProduct, createProduct }
+export default { getAllProducts, getProductsByCategory, createProduct }
