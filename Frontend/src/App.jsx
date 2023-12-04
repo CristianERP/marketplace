@@ -7,22 +7,19 @@ import { useEffect, useState } from 'react'
 
 function App () {
   const [user, setUser] = useState(null)
-  const [showInterface, setShowInterface] = useState('HomeInterface')
-  const [showUserOption, setUserOption] = useState(false)
+  const [showInterface, setShowInterface] = useState('LoginInterface')
+  const [categoryOptions, setCategoryOptions] = useState()
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user')
     if (storedUser) {
       setUser(JSON.parse(storedUser))
+      setShowInterface('HomeInterface')
     }
   }, [])
 
   const handleShowInterface = (interfaceOptionName) => {
     setShowInterface(interfaceOptionName)
-  }
-
-  const handleShowUserOption = () => {
-    setUserOption(!showUserOption)
   }
 
   const handleChangeUser = (newUser) => {
@@ -37,20 +34,24 @@ function App () {
       console.log('Cierre de sesión')
     }
   }
+
+  const handleCategoryOptions = (categories) => {
+    setCategoryOptions(categories)
+  }
   return (
     <div className='app'>
       <Header
         handleShowInterface={handleShowInterface}
-        showUserOption={showUserOption}
-        handleShowUserOption={handleShowUserOption}
-        user={user} handleChangeUser={handleChangeUser}
+        user={user}
+        handleChangeUser={handleChangeUser}
+        handleCategoryOptions={handleCategoryOptions}
       />
       <Main
         showInterface={showInterface}
         handleShowInterface={handleShowInterface}
-        handleShowUserOption={handleShowUserOption}
-        user={user}
+        userLogged={user}
         handleChangeUser={handleChangeUser}
+        categoryOptions={categoryOptions}
       />
       {/* <Sidebar /> */}
       {/* <Footer /> */}

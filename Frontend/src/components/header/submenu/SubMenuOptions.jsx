@@ -1,7 +1,7 @@
 import { BellIcon, ClipBoardListIcon, HomeIcon, SalesIcon, ShoppingBagIcon, UserIcon } from '../../icons'
 import './submenu.css'
 
-export default function SubMenuOptions ({ handleShowInterface, handleShowMenu, handleChangeUser }) {
+export default function SubMenuOptions ({ openSubmenu, handleShowInterface, handleShowMenu, handleChangeUser, user, categories }) {
   const handleShowHome = () => {
     handleShowInterface('HomeInterface')
     handleShowMenu()
@@ -27,11 +27,12 @@ export default function SubMenuOptions ({ handleShowInterface, handleShowMenu, h
     handleShowMenu()
   }
   const handleLogOut = () => {
-    handleShowHome()
+    handleShowInterface('LoginInterface')
     handleChangeUser()
+    handleShowMenu()
   }
   return (
-    <ul className='nav-submenu-options'>
+    <ul className={`nav-submenu-options ${openSubmenu}`}>
       <li className='submenu-option-card' onClick={handleShowHome}>
         <span><HomeIcon /></span>
         <p>Inicio</p>
@@ -60,6 +61,15 @@ export default function SubMenuOptions ({ handleShowInterface, handleShowMenu, h
         <span><UserIcon /></span>
         <p>Cerrar sesión</p>
       </li>
+      <hr />
+      <span className='categories-title'>Categorias</span>
+      {categories &&
+      categories.map((category) => (
+        <li className='submenu-option-card' key={category.id}>
+          <span><UserIcon /></span>
+          <p>{category.name}</p>
+        </li>
+      ))}
     </ul>
   )
 }
