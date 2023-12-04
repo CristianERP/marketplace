@@ -1,11 +1,32 @@
 import './header.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Navbar from './navbar/Navbar'
 // import UserCardOptions from './submenu/UserCardOptions'
 import SubMenuOptions from './submenu/SubMenuOptions'
+import services from '../../services/category'
 
-const Header = ({ handleShowInterface, user, handleChangeUser }) => {
+const Header = ({ handleShowInterface, user, handleChangeUser, handleCategoryOptions }) => {
   const [showSubMenu, setShowSubMenu] = useState(false)
+
+  const [categories, setCategories] = useState()
+
+  useEffect(() => {
+    async function getCategories () {
+      try {
+        const dataCategories = await services.getCategories(user.token)
+        setCategories(dataCategories)
+      } catch (error) {
+        console.log('Ocurrio un error: ', error)
+      }
+    }
+    if (user) {
+      getCategories()
+    }
+  }, [user])
+
+  useEffect(() => {
+    handleCategoryOptions(categories)
+  }, [categories])
 
   const handleShowMenu = () => {
     setShowSubMenu(!showSubMenu)
@@ -33,6 +54,7 @@ const Header = ({ handleShowInterface, user, handleChangeUser }) => {
               handleShowMenu={handleShowMenu}
               handleChangeUser={handleChangeUser}
               user={user}
+              categories={categories}
             />}
         </div>}
     </header>

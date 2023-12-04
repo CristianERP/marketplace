@@ -95,7 +95,7 @@ export default function CreateAccount ({ handleShowInterface }) {
           password
         })
         console.log(newUser)
-        handleShowInterface('HomeInterface')
+        handleShowInterface('LoginInterface')
       } else {
         console.log('faltan datos para crear la cuenta')
       }

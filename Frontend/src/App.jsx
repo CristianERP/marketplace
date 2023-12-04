@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 function App () {
   const [user, setUser] = useState(null)
   const [showInterface, setShowInterface] = useState('LoginInterface')
+  const [categoryOptions, setCategoryOptions] = useState()
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user')
@@ -33,18 +34,24 @@ function App () {
       console.log('Cierre de sesión')
     }
   }
+
+  const handleCategoryOptions = (categories) => {
+    setCategoryOptions(categories)
+  }
   return (
     <div className='app'>
       <Header
         handleShowInterface={handleShowInterface}
         user={user}
         handleChangeUser={handleChangeUser}
+        handleCategoryOptions={handleCategoryOptions}
       />
       <Main
         showInterface={showInterface}
         handleShowInterface={handleShowInterface}
-        user={user}
+        userLogged={user}
         handleChangeUser={handleChangeUser}
+        categoryOptions={categoryOptions}
       />
       {/* <Sidebar /> */}
       {/* <Footer /> */}

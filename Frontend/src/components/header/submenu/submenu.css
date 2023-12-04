@@ -54,15 +54,11 @@
   color: #006837;
 }
 
-.nav-submenu {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .nav-submenu-options {
   padding: 16px 0;
   width: 500px;
+  background-color: #e6e6e6;
+  z-index: 4;
 }
 
 .submenu-option-card {

@@ -13,6 +13,17 @@ const getAllProducts = async (token) => {
   return data
 }
 
+const getAllProductsByUser = async (token) => {
+  const config = {
+    credentials: 'same-origin',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+  const { data } = await axios.get(baseUrlProducts + '/user', config)
+  return data
+}
+
 // TODO: Falta arreglar porque ahora usa un form data
 const createProduct = async (token, newProduct) => {
   const config = {
@@ -58,4 +69,4 @@ const getProductsByCategory = async (token, idCategory) => {
   return data
 }
 
-export default { getAllProducts, getProductsByCategory, createProduct }
+export default { getAllProducts, getAllProductsByUser, getProductsByCategory, createProduct }

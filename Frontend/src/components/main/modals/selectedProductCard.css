@@ -3,7 +3,7 @@
   position: fixed;
   flex-direction: column;
   min-width: 320px;
-  height: 600px;
+  min-height: 600px;
   padding: 20px;
   gap: 7px;
   top: 50%;
@@ -78,13 +78,16 @@
   .selected-product-card {
     max-width:423px;
     padding: 30px;
+    height: auto;
   }
 }
 
 @media (min-width: 1020px) {
   .selected-product-card {
     max-width:450px;
-    height: 730px;
+    max-height: 648px;
     padding: 30px;
+    padding-bottom: 40px;
+    height: auto;
   }
 }

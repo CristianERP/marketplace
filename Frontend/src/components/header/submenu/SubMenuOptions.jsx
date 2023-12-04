@@ -1,24 +1,7 @@
 import { BellIcon, ClipBoardListIcon, HomeIcon, SalesIcon, ShoppingBagIcon, UserIcon } from '../../icons'
 import './submenu.css'
-import services from '../../../services/category'
-import { useEffect, useState } from 'react'
 
-export default function SubMenuOptions ({ openSubmenu, handleShowInterface, handleShowMenu, handleChangeUser, user }) {
-  const [categories, setCategories] = useState()
-
-  useEffect(() => {
-    async function getCategories () {
-      try {
-        const dataCategories = await services.getCategories(user.token)
-        setCategories(dataCategories)
-        console.log(categories)
-      } catch (error) {
-        console.log('Ocurrio un error: ', error)
-      }
-    }
-    getCategories()
-  }, [user])
-
+export default function SubMenuOptions ({ openSubmenu, handleShowInterface, handleShowMenu, handleChangeUser, user, categories }) {
   const handleShowHome = () => {
     handleShowInterface('HomeInterface')
     handleShowMenu()
