@@ -120,6 +120,19 @@ public class ProductoController {
 
   }
 
+  @PutMapping("/image/{id}")
+  public ResponseEntity<?> updateImageProduct(@PathVariable Integer id,
+      @RequestParam("imageFile") MultipartFile imageFile) {
+    try {
+      String urlImage = firebaseService.uploadFile(imageFile);
+      Product productRespond = productService.updateProductImage(id, urlImage);
+      return ResponseEntity.ok(productRespond);
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+
+  }
+
   @DeleteMapping("/{id}")
   public ResponseEntity<?> deleteProduct(@PathVariable Integer id) {
     try {

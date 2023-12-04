@@ -194,6 +194,20 @@ public class ProductService {
     }
   }
 
+  public Product updateProductImage(Integer id, String urlImage) {
+    Optional<Product> optionalProduct = productRepository.findById(id);
+
+    if (optionalProduct.isPresent()) {
+      Product productRespond = optionalProduct.get();
+
+      productRespond.setUrlImage(urlImage);
+      productRepository.save(productRespond);
+      return productRespond;
+    } else {
+      throw new EntityNotFoundException("Producto no encontrado con ID: " + id);
+    }
+  }
+
   public void deleteProduct(Integer id) {
     Optional<Product> optionalProduct = productRepository.findById(id);
     if (optionalProduct.isPresent()) {
