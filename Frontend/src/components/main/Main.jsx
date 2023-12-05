@@ -24,13 +24,6 @@ const Main = ({ showInterface, handleShowInterface, userLogged, handleChangeUser
     }
   }, [userLogged])
 
-  // useEffect(() => {
-  //   if (userLogged) {
-  //     console.log('trayendo los productos del usuario')
-  //     fetchDataProductsUser()
-  //   }
-  // }, [])
-
   async function fetchDataProducts () {
     try {
       const productsData = await productsServices.getAllProducts(userLogged.token)
@@ -76,11 +69,12 @@ const Main = ({ showInterface, handleShowInterface, userLogged, handleChangeUser
         <Home
           userLogged={userLogged}
           productsData={productsHome}
+          updateProductsInformation={updateProductsInformation}
         />}
       {(showInterface === 'NotificationInterface') &&
         <Notifications />}
       {(showInterface === 'MyShoppingInterface') &&
-        <Shopping />}
+        <Shopping userLogged={userLogged} />}
       {(showInterface === 'MySalesInterface') &&
         <Sales />}
       {(showInterface === 'MyProductsInterface') &&

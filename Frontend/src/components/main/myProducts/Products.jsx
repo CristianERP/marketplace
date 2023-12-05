@@ -2,7 +2,7 @@ import { useState } from 'react'
 import './products.css'
 import './../home/home.css'
 import SelectedProductCard from '../modals/SelectedProductCard'
-import CreateProductForm from './CreateProductForm'
+import ProductForm from './ProductForm'
 
 export default function Products ({ userLogged, products, categoryOptions, updateProductsInformation }) {
   // const [products, setProducts] = useState()
@@ -51,14 +51,18 @@ export default function Products ({ userLogged, products, categoryOptions, updat
           selectedProduct={selectedProduct}
           closeSelectedProduct={closeSelectedProduct}
           isMyProduct
+          categoryOptions={categoryOptions}
+          hiddenCreateProduct={hiddenCreateProduct}
+          updateProductsInformation={updateProductsInformation}
         />}
 
       {showCreateProductForm &&
-        <CreateProductForm
+        <ProductForm
           hiddenCreateProduct={hiddenCreateProduct}
           token={userLogged.token}
           categoryOptions={categoryOptions}
           updateProductsInformation={updateProductsInformation}
+          isCreateProduct
         />}
     </section>
   )
