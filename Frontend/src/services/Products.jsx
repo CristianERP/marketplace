@@ -35,6 +35,17 @@ const getProductsByCategory = async (token, idCategory) => {
   return data
 }
 
+const getSoldProducts = async (token) => {
+  const config = {
+    credentials: 'same-origin',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+  const { data } = await axios.get(baseUrlProducts + '/sold', config)
+  return data
+}
+
 const createProduct = async (token, newProduct) => {
   const config = {
     credentials: 'same-origin',
@@ -79,4 +90,4 @@ const updateProductImage = async (token, productUpdateData, idProduct) => {
 //   return data
 // }
 
-export default { getAllProducts, getAllProductsByUser, getProductsByCategory, createProduct, updateProduct, updateProductImage }
+export default { getAllProducts, getAllProductsByUser, getProductsByCategory, getSoldProducts, createProduct, updateProduct, updateProductImage }

@@ -93,6 +93,24 @@
   margin: 4px 0;
 }
 
+.selected-product-card--btn-container {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
+.selected-product-card--btn-container > button {
+  font-size: 1.6rem;
+  font-weight: 600;
+  width: 150px;
+  height: 36px;
+  color: #fff;
+  background-color: #006837;
+  border: 1px solid #000000;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 @media (min-width: 850px) {
   .selected-product-card {
     max-width:423px;
