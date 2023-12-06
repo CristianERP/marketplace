@@ -1,22 +1,23 @@
 import { useEffect, useState } from 'react'
 import './shopping.css'
 import ordersServices from '../../../services/Orders'
+import SelectedProductCard from '../modals/SelectedProductCard'
 
-export default function Shopping ({ userLogged }) {
+export default function Shopping ({ userLogged, updateProductsInformation }) {
+  const [selectedProduct, setSelectedProduct] = useState()
   const [myOrders, setMyOrders] = useState()
-  const [detailOrders, setDetailOrders] = useState()
-  const [myPurchasedProducts, setMyPurchasedProducts] = useState()
 
   useEffect(() => {
     getOrders()
   }, [])
 
-  useEffect(() => {
-    if (myOrders) {
-      const detailOrdersData = myOrders.detailOrder
-      setDetailOrders(detailOrdersData)
-    }
-  }, [myOrders])
+  const handleProductClick = (product) => {
+    setSelectedProduct(product)
+  }
+
+  const closeSelectedProduct = () => {
+    setSelectedProduct(null)
+  }
 
   const getOrders = async () => {
     try {
@@ -32,13 +33,21 @@ export default function Shopping ({ userLogged }) {
       <div className='products-container'>
         {myOrders &&
         myOrders.map((order) => (
-          <article className='product-card' key={order.id}>
+          <article className='product-card' key={order.id} onClick={() => handleProductClick(order.detailOrder[0].product)}>
             <div className='product-card--image-container'><img src={order.detailOrder[0].product.urlImage} alt='Imagen de la pantalla de un pc' /></div>
             <div className='product-card--price'>{order.detailOrder[0].product.price.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</div>
             <span className='product-card--name'>{order.detailOrder[0].product.name}</span>
           </article>))}
-
       </div>
+
+      {selectedProduct &&
+        <SelectedProductCard
+          userLogged={userLogged}
+          selectedProduct={selectedProduct}
+          closeSelectedProduct={closeSelectedProduct}
+          updateProductsInformation={updateProductsInformation}
+          isOrder
+        />}
     </section>
   )
 }

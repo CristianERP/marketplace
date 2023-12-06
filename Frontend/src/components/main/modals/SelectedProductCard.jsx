@@ -4,8 +4,8 @@ import './selectedProductCard.css'
 import ProductForm from '../myProducts/ProductForm'
 import ordersServices from '../../../services/Orders'
 
-export default function SelectedProductCard ({ userLogged, selectedProduct, closeSelectedProduct, isMyProduct, categoryOptions, hiddenCreateProduct, updateProductsInformation }) {
-  const username = !isMyProduct ? selectedProduct.user.username : ''
+export default function SelectedProductCard ({ userLogged, selectedProduct, closeSelectedProduct, isMyProduct, categoryOptions, hiddenCreateProduct, updateProductsInformation, isOrder }) {
+  const username = (!isMyProduct && !isOrder) ? selectedProduct.user.username : ''
   const [isEditProduct, setIsEditProduct] = useState(false)
 
   const [deliveryAddress, setDeliveryAddress] = useState('')
@@ -77,7 +77,7 @@ export default function SelectedProductCard ({ userLogged, selectedProduct, clos
           <p className='selected-product-card--description'>Categoría: {selectedProduct.category.name}</p>
           <p className='selected-product-card--description'>{selectedProduct.description}</p>
           <hr />
-          {(!isMyProduct) &&
+          {(!isMyProduct && !isOrder) &&
             <form className='selected-product-card--form-container' onSubmit={handleBuyProduct}>
               <label>
                 <span>Dirección de entrega: </span>
