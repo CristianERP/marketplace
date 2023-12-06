@@ -3,7 +3,7 @@ import './home.css'
 import { useState } from 'react'
 import SelectedProductCard from '../modals/SelectedProductCard'
 
-export default function Home ({ userLogged, productsData }) {
+export default function Home ({ userLogged, productsData, updateProductsInformation }) {
   const price2 = 234234
   const [selectedProduct, setSelectedProduct] = useState()
 
@@ -16,7 +16,7 @@ export default function Home ({ userLogged, productsData }) {
   }
 
   const closeSelectedProduct = () => {
-    setSelectedProduct()
+    setSelectedProduct(null)
     setFadeBackground(false)
   }
 
@@ -34,42 +34,6 @@ export default function Home ({ userLogged, productsData }) {
         </article>
       )
       )}
-
-          <article className='product-card'>
-            <div className='product-card--image-container'>Imagen</div>
-            <div className='product-card--price'>{price2.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</div>
-            <span className='product-card--name'>Silla Escritorio Esgonomica Oficina de color negro</span>
-            <span className='product-card--seller'>Vendido por</span>
-          </article>
-
-          <article className='product-card'>
-            <div className='product-card--image-container'>Imagen</div>
-            <div className='product-card--price'>{price2.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</div>
-            <span className='product-card--name'>Silla Escritorio Esgonomica Oficina de color negro</span>
-            <span className='product-card--seller'>Vendido por</span>
-          </article>
-
-          <article className='product-card'>
-            <div className='product-card--image-container'>Imagen</div>
-            <div className='product-card--price'>{price2.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</div>
-            <span className='product-card--name'>Silla Escritorio Esgonomica Oficina de color negro</span>
-            <span className='product-card--seller'>Vendido por</span>
-          </article>
-
-          <article className='product-card'>
-            <div className='product-card--image-container'>Imagen</div>
-            <div className='product-card--price'>{price2.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</div>
-            <span className='product-card--name'>Silla Escritorio Esgonomica Oficina de color negro</span>
-            <span className='product-card--seller'>Vendido por</span>
-          </article>
-
-          <article className='product-card'>
-            <div className='product-card--image-container'>Imagen</div>
-            <div className='product-card--price'>{price2.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</div>
-            <span className='product-card--name'>Silla Escritorio Esgonomica Oficina de color negro</span>
-            <span className='product-card--seller'>Vendido por</span>
-          </article>
-
           <article className='product-card'>
             <div className='product-card--image-container'>Imagen</div>
             <div className='product-card--price'>{price2.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</div>
@@ -89,6 +53,7 @@ export default function Home ({ userLogged, productsData }) {
           userLogged={userLogged}
           selectedProduct={selectedProduct}
           closeSelectedProduct={closeSelectedProduct}
+          updateProductsInformation={updateProductsInformation}
         />}
     </section>
   )

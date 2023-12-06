@@ -24,7 +24,17 @@ const getAllProductsByUser = async (token) => {
   return data
 }
 
-// TODO: Falta arreglar porque ahora usa un form data
+const getProductsByCategory = async (token, idCategory) => {
+  const config = {
+    credentials: 'same-origin',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+  const { data } = await axios.get(baseUrlProducts + '/category', idCategory, config)
+  return data
+}
+
 const createProduct = async (token, newProduct) => {
   const config = {
     credentials: 'same-origin',
@@ -36,16 +46,27 @@ const createProduct = async (token, newProduct) => {
   return request.data
 }
 
-// const updateProduct = async (token, productUpdateData) => {
-//   const config = {
-//     credentials: 'same-origin',
-//     headers: {
-//       Authorization: `Bearer ${token}`
-//     }
-//   }
-//   const { data } = await axios.put(baseUrlProducts + '/' + productUpdateData.id, productUpdateData, config)
-//   return data
-// }
+const updateProduct = async (token, productUpdateData) => {
+  const config = {
+    credentials: 'same-origin',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+  const { data } = await axios.put(baseUrlProducts + '/' + productUpdateData.id, productUpdateData, config)
+  return data
+}
+
+const updateProductImage = async (token, productUpdateData, idProduct) => {
+  const config = {
+    credentials: 'same-origin',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+  const { data } = await axios.put(baseUrlProducts + '/image/' + idProduct, productUpdateData, config)
+  return data
+}
 
 // const deleteProduct = async (token, productId) => {
 //   const config = {
@@ -58,15 +79,4 @@ const createProduct = async (token, newProduct) => {
 //   return data
 // }
 
-const getProductsByCategory = async (token, idCategory) => {
-  const config = {
-    credentials: 'same-origin',
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  }
-  const { data } = await axios.get(baseUrlProducts + '/category', idCategory, config)
-  return data
-}
-
-export default { getAllProducts, getAllProductsByUser, getProductsByCategory, createProduct }
+export default { getAllProducts, getAllProductsByUser, getProductsByCategory, createProduct, updateProduct, updateProductImage }
