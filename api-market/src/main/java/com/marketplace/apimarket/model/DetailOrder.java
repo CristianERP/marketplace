@@ -31,7 +31,7 @@ public class DetailOrder {
 
   @ManyToOne
   @JoinColumn(name = "id_product")
-  @JsonIgnore
+  // @JsonIgnore
   private Product product;
 
   private int amount;

@@ -1,6 +1,7 @@
 package com.marketplace.apimarket.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -11,9 +12,11 @@ import org.springframework.stereotype.Service;
 import com.marketplace.apimarket.dto.ProductResponse;
 import com.marketplace.apimarket.dto.UserResponse;
 import com.marketplace.apimarket.model.Category;
+import com.marketplace.apimarket.model.DetailOrder;
 import com.marketplace.apimarket.model.Product;
 import com.marketplace.apimarket.model.User;
 import com.marketplace.apimarket.repository.CategoryRepository;
+import com.marketplace.apimarket.repository.OrderDetailRepository;
 import com.marketplace.apimarket.repository.ProductRepository;
 import com.marketplace.apimarket.repository.UserRepository;
 
@@ -21,6 +24,9 @@ import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ProductService {
+
+  @Autowired
+  private OrderDetailRepository orderDetailRepository;
 
   @Autowired
   private CategoryRepository categoryRepository;
@@ -125,20 +131,24 @@ public class ProductService {
     return products;
   }
 
-  // public List<Object[]> getProductsSold(Integer userId) {
-  // List<Object[]> response = productRepository.findSoldProductsByUserId(userId);
+  public List<DetailOrder> getProductsSold(Integer userId) {
+    List<Optional<Product>> productsOptional = productRepository.findByUserId(userId);
 
-  // for (Object[] objects : response) {
-  // Product product = (Product) objects[0];
-  // DetailOrder detailOrder = (DetailOrder) objects[1];
+    List<Product> products = productsOptional
+        .stream()
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .collect(Collectors.toList());
 
-  // System.out.println(detailOrder);
-  // System.out.println(product);
-  // System.out.println(detailOrder);
-  // }
+    List<DetailOrder> orderDetails = new ArrayList<>();
+    for (Product product : products) {
+      List<DetailOrder> details = orderDetailRepository.findByProduct(product);
+      orderDetails.addAll(details);
+    }
 
-  // return productRepository.findSoldProductsByUserId(userId);
-  // }
+    return orderDetails;
+
+  }
 
   public Product createProduct(String name, String description, double price, int stock, int idCategory, int idUser,
       String urlImage) throws IOException {

@@ -19,16 +19,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-// import com.marketplace.apimarket.dto.ProductRequest;
 import com.marketplace.apimarket.dto.ProductResponse;
 import com.marketplace.apimarket.model.Category;
+import com.marketplace.apimarket.model.DetailOrder;
 import com.marketplace.apimarket.model.Product;
 import com.marketplace.apimarket.service.FirebaseService;
 import com.marketplace.apimarket.service.ProductService;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
-// import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/products")
@@ -86,6 +85,18 @@ public class ProductoController {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 
+  }
+
+  @GetMapping("/sold")
+  public ResponseEntity<?> getProductsSold(HttpServletRequest request) {
+    try {
+      int id = (int) request.getAttribute("id");
+      List<DetailOrder> orders = productService.getProductsSold(id);
+      return ResponseEntity.ok(orders);
+
+    } catch (EntityNotFoundException e) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
   }
 
   @PostMapping
