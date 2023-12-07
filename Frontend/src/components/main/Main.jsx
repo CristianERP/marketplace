@@ -9,18 +9,22 @@ import Products from './myProducts/Products'
 import Account from './account/Account'
 import { useEffect, useState } from 'react'
 import productsServices from '../../services/Products'
+import ordersServices from '../../services/Orders'
 
 const Main = ({ showInterface, handleShowInterface, userLogged, handleChangeUser, categoryOptions }) => {
   const [productsHome, setProductsHome] = useState()
   const [myProducts, setMyProducts] = useState()
+  const [myOrders, setMyOrders] = useState()
 
   useEffect(() => {
     if (userLogged) {
       fetchDataProducts()
       fetchDataProductsUser()
+      fetchDataMyOrders()
     } else {
       setProductsHome(null)
       setMyProducts(null)
+      setMyOrders(null)
     }
   }, [userLogged])
 
@@ -49,9 +53,20 @@ const Main = ({ showInterface, handleShowInterface, userLogged, handleChangeUser
     }
   }
 
+  async function fetchDataMyOrders () {
+    try {
+      const myOrdersData = await ordersServices.getAllOrdersByUser(userLogged.token)
+      console.log(myOrdersData)
+      setMyOrders(myOrdersData)
+    } catch (error) {
+      console.log('Ocurrio un error al traer las ordenes de compra ', error)
+    }
+  }
+
   const updateProductsInformation = () => {
     fetchDataProducts()
     fetchDataProductsUser()
+    fetchDataMyOrders()
   }
 
   return (
@@ -74,7 +89,10 @@ const Main = ({ showInterface, handleShowInterface, userLogged, handleChangeUser
       {(showInterface === 'NotificationInterface') &&
         <Notifications />}
       {(showInterface === 'MyShoppingInterface') &&
-        <Shopping userLogged={userLogged} />}
+        <Shopping
+          userLogged={userLogged}
+          myOrders={myOrders}
+        />}
       {(showInterface === 'MySalesInterface') &&
         <Sales />}
       {(showInterface === 'MyProductsInterface') &&

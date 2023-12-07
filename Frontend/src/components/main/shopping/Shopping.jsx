@@ -1,44 +1,43 @@
 import { useEffect, useState } from 'react'
 import './shopping.css'
-import ordersServices from '../../../services/Orders'
 import SelectedProductCard from '../modals/SelectedProductCard'
 
-export default function Shopping ({ userLogged, updateProductsInformation }) {
+export default function Shopping ({ userLogged, updateProductsInformation, myOrders }) {
   const [selectedProduct, setSelectedProduct] = useState()
-  const [myOrders, setMyOrders] = useState()
+  const [selectedOrder, setSelectedOrder] = useState()
 
   useEffect(() => {
-    getOrders()
-  }, [])
+    console.log('Seleccionando orden', selectedProduct)
+  }, [selectedProduct])
 
-  const handleProductClick = (product) => {
-    setSelectedProduct(product)
+  const handleProductClick = (order) => {
+    setSelectedProduct(order.detailOrder[0].product)
+    setSelectedOrder(order)
   }
 
   const closeSelectedProduct = () => {
     setSelectedProduct(null)
   }
 
-  const getOrders = async () => {
-    try {
-      const myOrdersData = await ordersServices.getAllOrdersByUser(userLogged.token)
-      console.log(myOrdersData)
-      setMyOrders(myOrdersData)
-    } catch (error) {
-      console.log('Ocurrio un error al traer las ordenes de compra ', error)
-    }
-  }
   return (
     <section className='my-purchased-products'>
-      <div className='products-container'>
-        {myOrders &&
+      {!selectedProduct &&
+        <div className='products-container'>
+          {myOrders &&
         myOrders.map((order) => (
-          <article className='product-card' key={order.id} onClick={() => handleProductClick(order.detailOrder[0].product)}>
-            <div className='product-card--image-container'><img src={order.detailOrder[0].product.urlImage} alt='Imagen de la pantalla de un pc' /></div>
-            <div className='product-card--price'>{order.detailOrder[0].product.price.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</div>
-            <span className='product-card--name'>{order.detailOrder[0].product.name}</span>
+          <article className='product-card' key={order.id} onClick={() => handleProductClick(order)}>
+            <div className='product-card--image-container'>
+              <img src={order.detailOrder[0].product.urlImage} alt='Imagen de la pantalla de un pc' />
+            </div>
+            <span className='product-card--name my-order-name'>
+              {order.detailOrder[0].product.name}
+            </span>
+            <span className='my-order-date'>Comprado el {order.date.slice(0, 10)}</span>
+            <div className='product-card--price'>
+              Total: {order.detailOrder[0].total.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 2 })}
+            </div>
           </article>))}
-      </div>
+        </div>}
 
       {selectedProduct &&
         <SelectedProductCard
@@ -47,6 +46,7 @@ export default function Shopping ({ userLogged, updateProductsInformation }) {
           closeSelectedProduct={closeSelectedProduct}
           updateProductsInformation={updateProductsInformation}
           isOrder
+          selectedOrder={selectedOrder}
         />}
     </section>
   )

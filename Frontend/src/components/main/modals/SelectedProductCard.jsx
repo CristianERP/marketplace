@@ -3,18 +3,27 @@ import { XIcon } from '../../icons'
 import './selectedProductCard.css'
 import ProductForm from '../myProducts/ProductForm'
 import ordersServices from '../../../services/Orders'
+import userServices from './../../../services/User'
 
-export default function SelectedProductCard ({ userLogged, selectedProduct, closeSelectedProduct, isMyProduct, categoryOptions, hiddenCreateProduct, updateProductsInformation, isOrder }) {
+export default function SelectedProductCard ({ userLogged, selectedProduct, closeSelectedProduct, isMyProduct, categoryOptions, hiddenCreateProduct, updateProductsInformation, isOrder, selectedOrder }) {
   const username = (!isMyProduct && !isOrder) ? selectedProduct.user.username : ''
   const [isEditProduct, setIsEditProduct] = useState(false)
 
   const [deliveryAddress, setDeliveryAddress] = useState('')
   const [amount, setAmount] = useState('0')
   const [total, setTotal] = useState('0')
+  const [productOwner, setProductOwner] = useState('')
 
   useEffect(() => {
     setTotal(amount * selectedProduct.price)
   }, [amount])
+
+  useState(() => {
+    console.log(selectedProduct.userId)
+    if (isOrder && userLogged && selectedProduct) {
+      getProductOwnerOrder(selectedProduct.userId)
+    }
+  }, [])
 
   function obtenerFechaActual () {
     const fecha = new Date()
@@ -61,17 +70,31 @@ export default function SelectedProductCard ({ userLogged, selectedProduct, clos
       console.log('Debe ingresar una cantidad mayor a 0')
     }
   }
+
+  async function getProductOwnerOrder (idUser) {
+    const productOwnerData = await userServices.getUser(userLogged.token, idUser)
+    console.log(productOwnerData.username)
+    setProductOwner(productOwnerData.username)
+  }
   return (
     <>
       {!isEditProduct &&
-        <article className='selected-product-card'>
+        <article className='selected-product-card purchased-product-card'>
           <span className='close-modal' onClick={closeSelectedProduct}><XIcon /></span>
+          <>
+            <div className='purchased-title'>
+              <h2>Compra</h2>
+              <h3>Inforción del producto</h3>
+            </div>
+          </>
           <div className='selected-product-card--image-container'><img src={selectedProduct.urlImage} alt='' /></div>
           <span className='selected-product-card--name'>{selectedProduct.name}</span>
           <div className='selected-product-card--price'>{selectedProduct.price.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 2 })}</div>
           <div className='selected-product-card--price'>Stock: {selectedProduct.stock}</div>
-          {(!isMyProduct) &&
+          {(!isMyProduct && !isOrder) &&
             <span className='selected-product-card--seller'>Vendido por {username}</span>}
+          {(isOrder && productOwner) &&
+            <span className='selected-product-card--seller'>Vendido por {productOwner}</span>}
           <hr />
           <span className='selected-product-card--description-title'>Descripción del producto</span>
           <p className='selected-product-card--description'>Categoría: {selectedProduct.category.name}</p>
@@ -105,10 +128,16 @@ export default function SelectedProductCard ({ userLogged, selectedProduct, clos
               </label>
               <button>Comprar</button>
             </form>}
-
           {(isMyProduct) &&
             <div className='selected-product-card--btn-container'>
               <button onClick={() => { setIsEditProduct(true) }}>Editar</button>
+            </div>}
+          {isOrder &&
+            <div className='purchased-information'>
+              <span>Comprado el {selectedOrder.date.slice(0, 10)}</span>
+              <span>Dirección: {selectedOrder.deliveryAddress}</span>
+              <span>Cantidad de producto: {selectedOrder.detailOrder[0].amount}</span>
+              <span>Total de la compra: {selectedOrder.totalOrder.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 2 })}</span>
             </div>}
         </article>}
 
