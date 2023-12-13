@@ -1,4 +1,4 @@
-import { HamburguerIcon, SearchIcon, ShoppingCart, XIcon } from '../../icons'
+import { HamburguerIcon, SearchIcon, XIcon } from '../../icons'
 import './navbar.css'
 
 export default function Navbar ({ handleShowMenu, showSubMenu, handleShowInterface }) {
@@ -20,9 +20,9 @@ export default function Navbar ({ handleShowMenu, showSubMenu, handleShowInterfa
         {!showSubMenu && <HamburguerIcon />}
         {showSubMenu && <XIcon />}
       </div>
-      <div className='nav-header-menu-switch'>
+      {/* <div className='nav-header-menu-switch'>
         <ShoppingCart />
-      </div>
+      </div> */}
     </ul>
   )
 }
