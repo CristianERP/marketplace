@@ -1,13 +1,9 @@
-import { BellIcon, ClipBoardListIcon, HomeIcon, SalesIcon, ShoppingBagIcon, UserIcon } from '../../icons'
+import { ClipBoardListIcon, HomeIcon, SalesIcon, ShoppingBagIcon, UserIcon } from '../../icons'
 import './submenu.css'
 
 export default function SubMenuOptions ({ openSubmenu, handleShowInterface, handleShowMenu, handleChangeUser, user, categories }) {
   const handleShowHome = () => {
     handleShowInterface('HomeInterface')
-    handleShowMenu()
-  }
-  const handleShowNotification = () => {
-    handleShowInterface('NotificationInterface')
     handleShowMenu()
   }
   const handleShowMyShopping = () => {
@@ -36,10 +32,6 @@ export default function SubMenuOptions ({ openSubmenu, handleShowInterface, hand
       <li className='submenu-option-card' onClick={handleShowHome}>
         <span><HomeIcon /></span>
         <p>Inicio</p>
-      </li>
-      <li className='submenu-option-card' onClick={handleShowNotification}>
-        <span><BellIcon /></span>
-        <p>Notificaciones</p>
       </li>
       <li className='submenu-option-card' onClick={handleShowMyShopping}>
         <span><ShoppingBagIcon /></span>

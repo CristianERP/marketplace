@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import './shopping.css'
 import SelectedProductCard from '../modals/SelectedProductCard'
 
-export default function Shopping ({ userLogged, updateProductsInformation, myOrders }) {
+export default function Shopping ({ userLogged, myOrders }) {
   const [selectedProduct, setSelectedProduct] = useState()
   const [selectedOrder, setSelectedOrder] = useState()
 
@@ -44,7 +44,6 @@ export default function Shopping ({ userLogged, updateProductsInformation, myOrd
           userLogged={userLogged}
           selectedProduct={selectedProduct}
           closeSelectedProduct={closeSelectedProduct}
-          updateProductsInformation={updateProductsInformation}
           isOrder
           selectedOrder={selectedOrder}
         />}

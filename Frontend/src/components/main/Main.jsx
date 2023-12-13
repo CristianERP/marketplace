@@ -15,16 +15,19 @@ const Main = ({ showInterface, handleShowInterface, userLogged, handleChangeUser
   const [productsHome, setProductsHome] = useState()
   const [myProducts, setMyProducts] = useState()
   const [myOrders, setMyOrders] = useState()
+  const [mySoldProducts, setMySoldProducts] = useState()
 
   useEffect(() => {
     if (userLogged) {
       fetchDataProducts()
       fetchDataProductsUser()
       fetchDataMyOrders()
+      fetchDataMySoldProducts()
     } else {
       setProductsHome(null)
       setMyProducts(null)
       setMyOrders(null)
+      setMySoldProducts(null)
     }
   }, [userLogged])
 
@@ -56,10 +59,20 @@ const Main = ({ showInterface, handleShowInterface, userLogged, handleChangeUser
   async function fetchDataMyOrders () {
     try {
       const myOrdersData = await ordersServices.getAllOrdersByUser(userLogged.token)
-      console.log(myOrdersData)
+      console.log('Productos comprados: ', myOrdersData)
       setMyOrders(myOrdersData)
     } catch (error) {
       console.log('Ocurrio un error al traer las ordenes de compra ', error)
+    }
+  }
+
+  async function fetchDataMySoldProducts () {
+    try {
+      const mySoldProductsData = await productsServices.getSoldProducts(userLogged.token)
+      console.log('Porductos vendidos: ', mySoldProductsData)
+      setMySoldProducts(mySoldProductsData)
+    } catch (error) {
+      console.log('Ocurrio un error al traer los productos vendidos ', error)
     }
   }
 
@@ -94,7 +107,10 @@ const Main = ({ showInterface, handleShowInterface, userLogged, handleChangeUser
           myOrders={myOrders}
         />}
       {(showInterface === 'MySalesInterface') &&
-        <Sales />}
+        <Sales
+          userLogged={userLogged}
+          mySoldProducts={mySoldProducts}
+        />}
       {(showInterface === 'MyProductsInterface') &&
         <Products
           userLogged={userLogged}

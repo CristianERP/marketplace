@@ -5,7 +5,7 @@ import ProductForm from '../myProducts/ProductForm'
 import ordersServices from '../../../services/Orders'
 import userServices from './../../../services/User'
 
-export default function SelectedProductCard ({ userLogged, selectedProduct, closeSelectedProduct, isMyProduct, categoryOptions, hiddenCreateProduct, updateProductsInformation, isOrder, selectedOrder }) {
+export default function SelectedProductCard ({ userLogged, selectedProduct, closeSelectedProduct, isMyProduct, categoryOptions, hiddenCreateProduct, updateProductsInformation, isOrder, selectedOrder, isSoldProduct }) {
   const username = (!isMyProduct && !isOrder) ? selectedProduct.user.username : ''
   const [isEditProduct, setIsEditProduct] = useState(false)
 
@@ -20,7 +20,7 @@ export default function SelectedProductCard ({ userLogged, selectedProduct, clos
 
   useState(() => {
     console.log(selectedProduct.userId)
-    if (isOrder && userLogged && selectedProduct) {
+    if (isOrder && userLogged && selectedProduct && !isSoldProduct) {
       getProductOwnerOrder(selectedProduct.userId)
     }
   }, [])
@@ -83,14 +83,17 @@ export default function SelectedProductCard ({ userLogged, selectedProduct, clos
           <span className='close-modal' onClick={closeSelectedProduct}><XIcon /></span>
           <>
             <div className='purchased-title'>
-              <h2>Compra</h2>
+              {(!isMyProduct && !isOrder) && <h2>Producto en Venta</h2>}
+              {(isOrder && isSoldProduct) && <h2>Producto Vendido</h2>}
+              {(isOrder && !isSoldProduct) && <h2>Producto Adquirido</h2>}
+              {isMyProduct && <h2>Mi Producto</h2>}
               <h3>Inforción del producto</h3>
             </div>
           </>
           <div className='selected-product-card--image-container'><img src={selectedProduct.urlImage} alt='' /></div>
           <span className='selected-product-card--name'>{selectedProduct.name}</span>
           <div className='selected-product-card--price'>{selectedProduct.price.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 2 })}</div>
-          <div className='selected-product-card--price'>Stock: {selectedProduct.stock}</div>
+          {!isOrder && <div className='selected-product-card--price'>Stock: {selectedProduct.stock}</div>}
           {(!isMyProduct && !isOrder) &&
             <span className='selected-product-card--seller'>Vendido por {username}</span>}
           {(isOrder && productOwner) &&
@@ -124,7 +127,7 @@ export default function SelectedProductCard ({ userLogged, selectedProduct, clos
               </label>
               <label>
                 <span>Total: </span>
-                <span>{total}</span>
+                <span>{total.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 2 })}</span>
               </label>
               <button>Comprar</button>
             </form>}
@@ -134,10 +137,18 @@ export default function SelectedProductCard ({ userLogged, selectedProduct, clos
             </div>}
           {isOrder &&
             <div className='purchased-information'>
-              <span>Comprado el {selectedOrder.date.slice(0, 10)}</span>
-              <span>Dirección: {selectedOrder.deliveryAddress}</span>
-              <span>Cantidad de producto: {selectedOrder.detailOrder[0].amount}</span>
-              <span>Total de la compra: {selectedOrder.totalOrder.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 2 })}</span>
+              {!isSoldProduct &&
+                <>
+                  <span>Comprado el {selectedOrder.date.slice(0, 10)}</span>
+                  <span>Dirección: {selectedOrder.deliveryAddress}</span>
+                  <span>Cantidad adquirida del producto: {selectedOrder.detailOrder[0].amount}</span>
+                  <span>Total de la compra: {selectedOrder.totalOrder.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 2 })}</span>
+                </>}
+
+              {isSoldProduct &&
+                <span>Cantidad vendida del producto: {selectedOrder.amount}</span>}
+              {isSoldProduct &&
+                <span>Total de la venta: {selectedOrder.total.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 2 })}</span>}
             </div>}
         </article>}
 
