@@ -1,7 +1,7 @@
 import { ClipBoardListIcon, HomeIcon, SalesIcon, ShoppingBagIcon, UserIcon } from '../../icons'
 import './submenu.css'
 
-export default function SubMenuOptions ({ openSubmenu, handleShowInterface, handleShowMenu, handleChangeUser, user, categories }) {
+export default function SubMenuOptions ({ openSubmenu, handleShowInterface, handleShowMenu, handleChangeUser, user, categories, handleChosenCategory }) {
   const handleShowHome = () => {
     handleShowInterface('HomeInterface')
     handleShowMenu()
@@ -18,13 +18,14 @@ export default function SubMenuOptions ({ openSubmenu, handleShowInterface, hand
     handleShowInterface('MyProductsInterface')
     handleShowMenu()
   }
-  const handleMyAccount = () => {
-    handleShowInterface('MyAccountInterface')
-    handleShowMenu()
-  }
   const handleLogOut = () => {
     handleShowInterface('LoginInterface')
     handleChangeUser()
+    handleShowMenu()
+  }
+  const handleChooseCategory = (category) => {
+    handleShowInterface('CategoryInterface')
+    handleChosenCategory(category)
     handleShowMenu()
   }
   return (
@@ -45,10 +46,6 @@ export default function SubMenuOptions ({ openSubmenu, handleShowInterface, hand
         <span><ClipBoardListIcon /></span>
         <p>Mis productos</p>
       </li>
-      <li className='submenu-option-card' onClick={handleMyAccount}>
-        <span><UserIcon /></span>
-        <p>Mi cuenta</p>
-      </li>
       <li className='submenu-option-card' onClick={handleLogOut}>
         <span><UserIcon /></span>
         <p>Cerrar sesión</p>
@@ -57,7 +54,7 @@ export default function SubMenuOptions ({ openSubmenu, handleShowInterface, hand
       <span className='categories-title'>Categorias</span>
       {categories &&
       categories.map((category) => (
-        <li className='submenu-option-card' key={category.id}>
+        <li className='submenu-option-card' key={category.id} onClick={() => handleChooseCategory(category.id)}>
           <span><UserIcon /></span>
           <p>{category.name}</p>
         </li>

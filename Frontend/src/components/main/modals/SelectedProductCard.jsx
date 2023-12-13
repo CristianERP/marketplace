@@ -87,7 +87,7 @@ export default function SelectedProductCard ({ userLogged, selectedProduct, clos
               {(isOrder && isSoldProduct) && <h2>Producto Vendido</h2>}
               {(isOrder && !isSoldProduct) && <h2>Producto Adquirido</h2>}
               {isMyProduct && <h2>Mi Producto</h2>}
-              <h3>Inforción del producto</h3>
+              <h3>Información del producto</h3>
             </div>
           </>
           <div className='selected-product-card--image-container'><img src={selectedProduct.urlImage} alt='' /></div>

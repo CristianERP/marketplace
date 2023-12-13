@@ -9,6 +9,7 @@ function App () {
   const [user, setUser] = useState(null)
   const [showInterface, setShowInterface] = useState('LoginInterface')
   const [categoryOptions, setCategoryOptions] = useState()
+  const [chosenCategory, setChosenCategory] = useState()
   const [pageLoaded, setPageLoaded] = useState(false)
 
   useEffect(() => {
@@ -40,6 +41,14 @@ function App () {
     setCategoryOptions(categories)
   }
 
+  const handleChosenCategory = (category) => {
+    setChosenCategory(category)
+  }
+
+  useEffect(() => {
+    console.log('Categoria elegida: ', chosenCategory)
+  }, [chosenCategory])
+
   const handlePageLoaded = (pageLoadedValue) => {
     setPageLoaded(pageLoadedValue)
   }
@@ -51,6 +60,7 @@ function App () {
         handleChangeUser={handleChangeUser}
         handleCategoryOptions={handleCategoryOptions}
         pageLoaded={pageLoaded}
+        handleChosenCategory={handleChosenCategory}
       />
       <Main
         showInterface={showInterface}
@@ -59,6 +69,7 @@ function App () {
         handleChangeUser={handleChangeUser}
         categoryOptions={categoryOptions}
         handlePageLoaded={handlePageLoaded}
+        chosenCategory={chosenCategory}
       />
       {/* <Sidebar /> */}
       {/* <Footer /> */}

@@ -12,7 +12,7 @@ import productsServices from '../../services/Products'
 import ordersServices from '../../services/Orders'
 import ChargingScreen from './ChargingScreen'
 
-const Main = ({ showInterface, handleShowInterface, userLogged, handleChangeUser, categoryOptions, handlePageLoaded }) => {
+const Main = ({ showInterface, handleShowInterface, userLogged, handleChangeUser, categoryOptions, handlePageLoaded, chosenCategory }) => {
   const [productsHome, setProductsHome] = useState()
   const [myProducts, setMyProducts] = useState()
   const [myOrders, setMyOrders] = useState()
@@ -39,6 +39,12 @@ const Main = ({ showInterface, handleShowInterface, userLogged, handleChangeUser
       handlePageLoaded(false)
     }
   }, [productsHome])
+
+  useEffect(() => {
+    // if (chosenCategory) {
+    //   fetchDataProductsByCategory()
+    // }
+  }, [chosenCategory])
 
   async function fetchDataProducts () {
     try {
@@ -85,10 +91,24 @@ const Main = ({ showInterface, handleShowInterface, userLogged, handleChangeUser
     }
   }
 
+  async function fetchDataProductsByCategory () {
+    try {
+      if (chosenCategory) {
+        const id = { id: chosenCategory }
+        const myProductsByCategoryData = await productsServices.getProductsByCategory(userLogged.token, id)
+        console.log('Porductos por categoria: ', myProductsByCategoryData)
+        setMySoldProducts(myProductsByCategoryData)
+      }
+    } catch (error) {
+      console.log('Ocurrio un error al traer los productos por categoria ', error)
+    }
+  }
+
   const updateProductsInformation = () => {
     fetchDataProducts()
     fetchDataProductsUser()
     fetchDataMyOrders()
+    fetchDataMySoldProducts()
   }
 
   return (
@@ -131,6 +151,12 @@ const Main = ({ showInterface, handleShowInterface, userLogged, handleChangeUser
           userLogged={userLogged}
           products={myProducts}
           categoryOptions={categoryOptions}
+          updateProductsInformation={updateProductsInformation}
+        />}
+      {(showInterface === 'CategoryInterface' && userLogged) &&
+        <Home
+          userLogged={userLogged}
+          productsData={productsHome}
           updateProductsInformation={updateProductsInformation}
         />}
       {(showInterface === 'MyAccountInterface') &&
