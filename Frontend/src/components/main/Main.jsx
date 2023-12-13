@@ -10,8 +10,9 @@ import Account from './account/Account'
 import { useEffect, useState } from 'react'
 import productsServices from '../../services/Products'
 import ordersServices from '../../services/Orders'
+import ChargingScreen from './ChargingScreen'
 
-const Main = ({ showInterface, handleShowInterface, userLogged, handleChangeUser, categoryOptions }) => {
+const Main = ({ showInterface, handleShowInterface, userLogged, handleChangeUser, categoryOptions, handlePageLoaded }) => {
   const [productsHome, setProductsHome] = useState()
   const [myProducts, setMyProducts] = useState()
   const [myOrders, setMyOrders] = useState()
@@ -30,6 +31,14 @@ const Main = ({ showInterface, handleShowInterface, userLogged, handleChangeUser
       setMySoldProducts(null)
     }
   }, [userLogged])
+
+  useEffect(() => {
+    if (productsHome) {
+      handlePageLoaded(true)
+    } else if (!productsHome) {
+      handlePageLoaded(false)
+    }
+  }, [productsHome])
 
   async function fetchDataProducts () {
     try {
@@ -89,16 +98,22 @@ const Main = ({ showInterface, handleShowInterface, userLogged, handleChangeUser
           handleChangeUser={handleChangeUser}
           handleShowInterface={handleShowInterface}
         />}
+
       {(showInterface === 'CreateAccountInterface') &&
         <CreateAccount
           handleShowInterface={handleShowInterface}
         />}
       {(showInterface === 'HomeInterface' && userLogged) &&
-        <Home
-          userLogged={userLogged}
-          productsData={productsHome}
-          updateProductsInformation={updateProductsInformation}
-        />}
+        <>
+          {productsHome &&
+            <Home
+              userLogged={userLogged}
+              productsData={productsHome}
+              updateProductsInformation={updateProductsInformation}
+            />}
+          {!productsHome &&
+            <ChargingScreen />}
+        </>}
       {(showInterface === 'NotificationInterface') &&
         <Notifications />}
       {(showInterface === 'MyShoppingInterface') &&

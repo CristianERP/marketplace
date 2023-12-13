@@ -5,7 +5,7 @@ import Navbar from './navbar/Navbar'
 import SubMenuOptions from './submenu/SubMenuOptions'
 import services from '../../services/category'
 
-const Header = ({ handleShowInterface, user, handleChangeUser, handleCategoryOptions }) => {
+const Header = ({ handleShowInterface, user, handleChangeUser, handleCategoryOptions, pageLoaded }) => {
   const [showSubMenu, setShowSubMenu] = useState(false)
 
   const [categories, setCategories] = useState()
@@ -34,7 +34,7 @@ const Header = ({ handleShowInterface, user, handleChangeUser, handleCategoryOpt
 
   return (
     <header className='header'>
-      {user &&
+      {(user && pageLoaded) &&
         <Navbar
           handleShowMenu={handleShowMenu}
           showSubMenu={showSubMenu}

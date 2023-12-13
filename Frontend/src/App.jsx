@@ -9,6 +9,7 @@ function App () {
   const [user, setUser] = useState(null)
   const [showInterface, setShowInterface] = useState('LoginInterface')
   const [categoryOptions, setCategoryOptions] = useState()
+  const [pageLoaded, setPageLoaded] = useState(false)
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user')
@@ -38,6 +39,10 @@ function App () {
   const handleCategoryOptions = (categories) => {
     setCategoryOptions(categories)
   }
+
+  const handlePageLoaded = (pageLoadedValue) => {
+    setPageLoaded(pageLoadedValue)
+  }
   return (
     <div className='app'>
       <Header
@@ -45,6 +50,7 @@ function App () {
         user={user}
         handleChangeUser={handleChangeUser}
         handleCategoryOptions={handleCategoryOptions}
+        pageLoaded={pageLoaded}
       />
       <Main
         showInterface={showInterface}
@@ -52,6 +58,7 @@ function App () {
         userLogged={user}
         handleChangeUser={handleChangeUser}
         categoryOptions={categoryOptions}
+        handlePageLoaded={handlePageLoaded}
       />
       {/* <Sidebar /> */}
       {/* <Footer /> */}
